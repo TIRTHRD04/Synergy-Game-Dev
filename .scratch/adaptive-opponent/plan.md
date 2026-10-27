@@ -11,4 +11,5 @@ Status: approved after grilling (2026-10-27). Decisions: notes/decisions.md. ADR
 6. v2, one component at a time on paired dev seeds, one log.csv row each: CTW x2 (action-first, response-first, clamped log-odds), longest-match, level-k/mirror (own keep rule), safe exploitation (k0 = 0.25), optional CTW at 3 gammas, global-time fading row. p50/p99 decision time reported.
 7. One heldout run reporting v1, freq and v2, run twice to show identical numbers, raw output shown.
 8. Unity: Bootstrap, DuelScreen (IMGUI, key-up rule, commit hash), HumanPlayer, asmdefs, manual play CSV log, docs/playtest.md. Compiled and played by the team in Unity 6, not in the container.
-9. Independent review, fixes.
+9. Human data: analyze-human command in Core.Sim reads play logs and reports the learning curve (bootstrap over players), accuracy from exchange 31, log-loss vs uniform, gate-open rate and a per-player table; one log.csv row per run. Teammates = dev, fresh players = report set, >= 8 players before any claim.
+10. Independent review, fixes.

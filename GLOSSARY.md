@@ -50,6 +50,10 @@ _Avoid_: run, game
 A scripted behaviour that plays in place of a human player, used to check that the Opponent adapts. The five archetypes are Spammer, Cycler, Win-stay/lose-shift, Out-guesser and Random.
 _Avoid_: simulated player, bot, scripted player
 
+**Play log**:
+The record of one human session's exchanges, written by the game for later analysis. The Opponent never reads it.
+_Avoid_: profile, telemetry, save file
+
 ### The Opponent's parts
 
 **Predictor**:
