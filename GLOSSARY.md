@@ -54,6 +54,10 @@ _Avoid_: simulated player, bot, scripted player
 The record of one human session's exchanges, written by the game for later analysis. The Opponent never reads it.
 _Avoid_: profile, telemetry, save file
 
+**Population prior**:
+The Opponent's starting guess about how people in general play, learned from earlier play logs before it has seen this player.
+_Avoid_: pretrained model, default habits
+
 ### The Opponent's parts
 
 **Predictor**:

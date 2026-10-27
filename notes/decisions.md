@@ -55,3 +55,7 @@ One dated line per decision, final version only. When a decision changes, its li
 - 2026-10-27: An analyze-human command in Core.Sim (pure C#, no Unity) reads a folder of play logs and reports: the learning curve with confidence bands, accuracy from exchange 31, log-loss vs uniform (bits per exchange), how often the gate opened, and a per-player table. Each run appends one row to experiments/log.csv.
 - 2026-10-27: Confidence intervals come from a bootstrap over players, not exchanges, and the player count is always reported. No human claim with fewer than 8 different players.
 - 2026-10-27: Teammates' sessions are dev data and may inform tuning. Fresh players (interviewers, friends) are the report set and are never used for tuning.
+
+## Population prior (ADR 0008)
+- 2026-10-27: CLAUDE.md now allows a pretrained table if it ships as a bundled config and beats no prior; network calls stay banned.
+- 2026-10-27: Population prior: a relational table (next action's relation to the last action and the Opponent's last response, per last outcome), learned from teammates' play logs only, shipped as configs/prior.json, applied as w pseudo-counts (tuned on dev in [0, 20]) to the order-1 and (action, response) experts and, if v2 ships, CTW depth-1/2 nodes. Shipped only if it beats w = 0 on early accuracy (exchanges 1-30) on the human report set by more than 2 SE, is not worse on any archetype by more than the margin, and Random still makes 0 claims.

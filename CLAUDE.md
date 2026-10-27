@@ -31,8 +31,9 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
 - NEVER hand-edit .unity/.prefab YAML; use the Unity plugin's unity-cli skill. NEVER commit Library/, Temp/,
   Obj/, Logs/, UserSettings/, builds or keys. ALWAYS commit .meta files together with their assets.
 - NEVER add a package or dependency without a short entry in docs/adr/ (judges read the dependency list).
-- NEVER use external data, pretrained models or network calls in the AI unless docs/CONTEXT.md allows them.
-  The AI must run offline and be deterministic for a given seed.
+- NEVER make network calls from the AI. A pretrained table (for example the population prior, ADR 0008) may ship
+  only as a bundled config file, and only if it beats the no-prior config in the harness and on the human report
+  set. The AI must run offline and be deterministic for a given seed.
 
 ## Conventions
 - Reproducibility: one global seed in configs/. All randomness is seeded. Every run is reproducible from
