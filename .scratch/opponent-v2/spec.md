@@ -50,24 +50,24 @@ Every forecast is smoothed: p <- (1 - eps) p + eps / |A|, eps = 0.05. Each meta-
 Keep rule (its own, because the archetype set barely tests it): keep level-k/mirror if (a) not worse on Spammer, Cycler, Win-stay/lose-shift and Random by more than the margin in prediction accuracy, (b) >= 0.3 higher accuracy than without them on the scripted level-1 and mirror-1 players, (c) not worse against Out-guesser by more than the margin, on payoff. If they do not improve the Out-guesser result, they are kept on the scripted tests alone; that weaker evidence is checked against humans through the manual play log.
 
 ## 4. Fixed Share mixing (already in v1)
-- After action a: w_i <- w_i p_i(a), normalise, then w_i <- (1 - alpha) w_i + alpha / K. alpha starts at 0.01.
+- After action a: w_i <- w_i p_i(a) for awake experts, renormalised so the awake experts keep their total weight; then w_i <- (1 - alpha) w_i + alpha / K over all K experts. An expert that Abstains (ADR 0011) keeps its weight. alpha starts at 0.01.
 - Mixed forecast p = sum_i w_i p_i. v1's order-1 expert stays in the mix as a hedge.
 - Match start: w <- 0.5 w + 0.5 / K.
 - Optional ablation row: the action-first CTW at gamma in {1.0, 0.98, 0.9} as three experts.
 - The evidence gate stays on the single mixed forecast, made before the action, so Ville's bound holds.
 
 ## 5. Safe-exploitation response selector
-- Nash: the balanced outcome matrix gives sigma* = uniform and v* = 0 (checked at load; no LP).
+- Nash: the balanced payoff (outcome matrix with the Damage table, ADR 0010) gives sigma* = uniform and v* = 0 (checked at load; no LP).
 - BR(p) = argmax_r sum_a p(a) U(r, a). Ties go to the authored counter, then the lower index.
-- Budget: k starts at k0 = 0.25 (tuned on dev in [0.1, 1]); after each exchange k += sum_r sigma_t(r) U(r, a_t) - v* (expected gift, not realised payoff).
-- Strategy: sigma = lambda BR + (1 - lambda) sigma*, lambda = clamp(k / (v* - min_a U(BR, a)), 0, 1). With v* = 0 and min U = -1, lambda = min(k, 1); against a real pattern it roughly doubles per correct exchange.
+- Budget (damage units): k starts at k0 = 0.75 (tuned on dev in [0.3, 3]); after each exchange k += sum_r sigma_t(r) U(r, a_t) - v* (expected gift, not realised payoff).
+- Strategy: sigma = lambda BR + (1 - lambda) sigma*, lambda = clamp(k / (v* - min_a U(BR, a)), 0, 1). With v* = 0 and min U = -3 (every row of the example table), lambda = min(k/3, 1). The expected gift is lambda U(BR, a), so k doubles when the best response lands its heavy win, as it does against a fully predictable action.
 - Gate closed: lambda = 0, so the Opponent plays sigma*.
 - The response is drawn from sigma with the seeded Rng; test mode uses argmax.
 - Property test: across random forecasts, worst-case expected payoff >= v* - k at every step.
 - Judged on payoff against v1's Thompson Sampling. ADR 0006 is superseded only if this wins.
 
 ## 6. Lookahead: deferred
-Expectimax over 2-3 exchanges with the mixed forecast, only if HP or round state changes the best response. Recorded in docs/open-questions.md.
+Expectimax over 2-3 exchanges with the mixed forecast, only if a combo rule is added or HP near the end of a match (either side's HP <= max damage) changes the best response. Recorded in docs/open-questions.md.
 
 ## 7. Insights and Commentary
 An Insight describes the leading expert, only when the gate is open, the top probability is >= 0.4 and the supporting faded count is >= 5.
@@ -76,6 +76,8 @@ An Insight describes the leading expert, only when the gate is open, the top pro
 - Level-1/2: "You're trying to beat my counter."
 - Mirror: "You're reacting to my last response."
 
+Recall (ADR 0011) is separate: a factual line from Big-hit memory ("Last time we were here you hit me hard, starting with <action>"), shown only when the gate is open and the Big-hit sequence expert's predicted action is its top prediction with p >= 0.4.
+
 The Belief line names the leading expert in plain words. No expert or gate jargon reaches the player.
 
 ## 8. Constraints
@@ -83,12 +85,12 @@ Pure C#, deterministic per seed, ties by fixed index, offline. Under 1 ms per de
 
 ## 9. Acceptance
 - All tuned parameters (gate threshold, k0, alpha, gamma) are fixed on dev seeds before the single heldout run, never changed after it.
-- Comparisons use paired seeds; margin = max(0.02, t x paired SE), t = Student-t 95% critical value for (seeds - 1) df.
+- Comparisons use paired seeds; margin = max(0.02, t x paired SE) for accuracy and log-loss and max(0.06, t x paired SE) for payoff, t = Student-t 95% critical value for (seeds - 1) df.
 - v2 >= v1 - margin on mean late prediction accuracy for every archetype.
 - Strict wins: v2 beats v1 by more than t x paired SE on Win-stay/lose-shift win rate and on Out-guesser payoff.
-- Random: the evidence gate never opens on any heldout seed (so no Insights) and lambda = 0 on every exchange. Mean payoff within v* +/- 0.05 is a simulator check.
+- Random: the evidence gate never opens on any heldout seed (so no Insights) and lambda = 0 on every exchange. Mean payoff within v* +/- 0.15 is a simulator check.
 - Habit-switch unit test passes.
-- Ablation rows (dev, greedy, in order): v1, v1 without Fixed Share, +CTW x2, +longest-match, +level-k/mirror, +safe exploitation, optional +CTW at 3 gammas, global-time fading. Predictor rows are judged on prediction accuracy, selector rows on payoff. A row beats the one above if it improves at least one archetype by more than t x paired SE and is not worse on any by more than the margin.
+- Ablation rows (dev, greedy, in order): v1, v1 without Fixed Share, +CTW x2, +longest-match, +level-k/mirror, +safe exploitation, optional +CTW at 3 gammas, global-time fading, then the four ADR 0011 rows. Predictor rows are judged on prediction accuracy, selector rows on payoff. A row beats the one above if it improves at least one archetype by more than t x paired SE and is not worse on any by more than the margin.
 
 ## Not used (for docs/CONTEXT.md)
 - Neural networks and LSTMs: far too little data; pretrained models are not allowed.

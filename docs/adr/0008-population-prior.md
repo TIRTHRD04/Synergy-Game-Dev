@@ -6,14 +6,14 @@ With no prior, the Opponent knows nothing for the first ~30 exchanges, which is 
 
 ## Decision
 
-- The prior is relational, so it survives any theme: for each outcome of the last exchange (win, draw, loss), the probability that the next action is the same as the last action, beats the Opponent's last response, is beaten by it, and so on. Each relation is defined by the outcome matrix, not by action names.
+- The prior is relational, so it survives any theme: for each bucket of the last exchange (big hit on the player, win, draw, loss, big hit on the Opponent; named by who took the hit, ADR 0011), the probability that the next action is the same as the last action, beats the Opponent's last response, is beaten by it, and so on. Each relation is defined by the outcome matrix, not by action names. The two big-hit buckets see about 4 events per session, so each shrinks toward its plain bucket (on the player toward win, on the Opponent toward loss): estimate = (counts + 20 x parent) / (n + 20).
 - It is turned into Dirichlet pseudo-counts for the order-1 and (action, response) experts (and CTW depth-1/2 nodes if v2 ships), with total strength w pseudo-counts per context. w is tuned on dev in [0, 20]; w = 0 means no prior. The pseudo-counts are stored apart from observed counts but fade and halve the same way, so the prior is a starting guess that this player's evidence replaces.
 - It is learned only from teammates' play logs (dev data) and shipped as configs/prior.json. Fresh players' logs (the report set) are never used to build it.
 - Commentary and Insights never cite the prior; they describe only this player's evidence.
 
 ## Acceptance
 
-The decision is made on teammates' play logs only, by leave-one-player-out: build the prior from all teammates but one, test on that one, repeat for each. Ship it if early prediction accuracy (exchanges 1-30) beats w = 0 on average across those folds, no archetype is worse by more than the max(0.02, 2 x paired SE) margin, and Random still never opens the evidence gate. Prior pseudo-counts never count toward an Insight's minimum observed count. The fresh players' report set is then used once, to report the result, never to decide or tune. Otherwise configs/prior.json stays out and this ADR records why.
+The decision is made on teammates' play logs only, by leave-one-player-out: build the prior from all teammates but one, test on that one, repeat for each. Ship it if early prediction accuracy (exchanges 1-30) beats w = 0 on average across those folds, no archetype is worse by more than the max(0.02, t x paired SE) margin, and Random still never opens the evidence gate. Prior pseudo-counts never count toward an Insight's minimum observed count. The fresh players' report set is then used once, to report the result, never to decide or tune. Otherwise configs/prior.json stays out and this ADR records why.
 
 ## Considered options
 
