@@ -41,14 +41,15 @@ namespace AdaptiveOpponent.Core
             History = new ExchangeHistory(historyCapacity, definition.ActionCount, definition.ResponseCount);
             detector = new BigHitDetector(definition);
             bigHits = new BigHitMemory(definition, config.BroadMatches);
-            experts = ExpertFactory.Create(definition, config, bigHits);
-            recallExpert = Array.IndexOf(config.Experts, "bigHitSequence");
-            forecasts = new double[experts.Length][];
-            for (int i = 0; i < experts.Length; i++)
+            int count = config.Experts.Length;
+            forecasts = new double[count][];
+            for (int i = 0; i < count; i++)
             {
                 forecasts[i] = new double[definition.ActionCount];
             }
-            awake = new bool[experts.Length];
+            awake = new bool[count];
+            experts = ExpertFactory.Create(definition, config, bigHits, historyCapacity, forecasts, awake);
+            recallExpert = Array.IndexOf(config.Experts, "bigHitSequence");
             mixed = new double[definition.ActionCount];
             sample = new double[definition.ActionCount];
             drawBuffer = new double[Math.Max(experts.Length, 1)];

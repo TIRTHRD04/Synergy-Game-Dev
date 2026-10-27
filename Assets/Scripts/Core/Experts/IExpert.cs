@@ -47,6 +47,14 @@ namespace AdaptiveOpponent.Core
         AfterActionAndResponse,
         /// <summary>"At the start of a match, you usually play {Action}."</summary>
         MatchStart,
+        /// <summary>"After I play {PrevResponse}, you usually play {Action}."</summary>
+        AfterResponse,
+        /// <summary>"You're repeating a sequence from earlier."</summary>
+        RepeatSequence,
+        /// <summary>"You're trying to beat my counter."</summary>
+        BeatMyCounter,
+        /// <summary>"You're reacting to my last response."</summary>
+        ReactToMyResponse,
         /// <summary>Recall: "Last time we were here you hit me hard, starting with {Action}."</summary>
         RecallOpening,
         /// <summary>Recall: "Last time you followed {Prev1} with {Action}."</summary>

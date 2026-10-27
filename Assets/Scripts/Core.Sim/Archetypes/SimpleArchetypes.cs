@@ -44,6 +44,9 @@ namespace AdaptiveOpponent.Sim
 
         /// <summary>True with probability <paramref name="p"/>.</summary>
         protected bool Chance(double p) => Play.NextDouble() < p;
+
+        /// <summary>One of the two actions that beat <paramref name="response"/>, with equal chance.</summary>
+        protected int EitherBeater(int response) => Chance(0.5) ? Definition.HeavyBeater(response) : Definition.LightBeater(response);
     }
 
     /// <summary>Plays uniformly at random: the negative control.</summary>
@@ -140,8 +143,7 @@ namespace AdaptiveOpponent.Sim
             {
                 return history.Action(last);
             }
-            int response = history.Response(last);
-            return Chance(0.5) ? Definition.HeavyBeater(response) : Definition.LightBeater(response);
+            return EitherBeater(history.Response(last));
         }
     }
 

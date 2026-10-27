@@ -24,6 +24,14 @@ namespace AdaptiveOpponent.Core
                         definition.ResponseName(insight.PrevResponse) + ", you usually play " + action + ".";
                 case InsightKind.MatchStart:
                     return "At the start of a match, you usually play " + action + ".";
+                case InsightKind.AfterResponse:
+                    return "After I play " + definition.ResponseName(insight.PrevResponse) + ", you usually play " + action + ".";
+                case InsightKind.RepeatSequence:
+                    return "You're repeating a sequence from earlier.";
+                case InsightKind.BeatMyCounter:
+                    return "You're trying to beat my counter.";
+                case InsightKind.ReactToMyResponse:
+                    return "You're reacting to my last response.";
                 case InsightKind.RecallOpening:
                     return "Last time we were here you hit me hard, starting with " + action + ".";
                 case InsightKind.RecallFollowUp:
@@ -47,9 +55,16 @@ namespace AdaptiveOpponent.Core
                 case "ctwActionFirst": return "your recent actions";
                 case "ctwResponseFirst": return "my recent responses";
                 case "longestMatch": return "a sequence you repeated";
-                case "levelK": return "you trying to beat my counter";
-                case "mirror": return "you reading my responses";
-                default: return expert;
+                default:
+                    if (expert.StartsWith("levelK", System.StringComparison.Ordinal))
+                    {
+                        return "you trying to beat my counter";
+                    }
+                    if (expert.StartsWith("mirror", System.StringComparison.Ordinal))
+                    {
+                        return "you reading my responses";
+                    }
+                    return expert;
             }
         }
     }

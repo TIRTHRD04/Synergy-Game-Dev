@@ -113,11 +113,28 @@ namespace AdaptiveOpponent.Core
             return actions[index - 2];
         }
 
+        /// <summary>
+        /// The action <paramref name="back"/> exchanges before exchange <paramref name="index"/> in the same match
+        /// (back = 1 is the previous one), or <see cref="MatchStartAction"/> past the start of the match.
+        /// </summary>
+        public int ActionBack(int index, int back)
+        {
+            return index - back >= MatchStartOf(index) ? actions[index - back] : MatchStartAction;
+        }
+
+        /// <summary>The response <paramref name="back"/> exchanges before exchange <paramref name="index"/>, or <see cref="MatchStartResponse"/>.</summary>
+        public int ResponseBack(int index, int back)
+        {
+            return index - back >= MatchStartOf(index) ? responses[index - back] : MatchStartResponse;
+        }
+
         /// <summary>The previous response before exchange <paramref name="index"/>, or <see cref="MatchStartResponse"/>.</summary>
         public int PrevResponseBefore(int index)
         {
             return IsMatchStart(index) ? MatchStartResponse : responses[index - 1];
         }
+
+        private int MatchStartOf(int index) => index == Count ? matchStartIndex : index - indexInMatch[index];
 
         /// <summary>True when exchange <paramref name="index"/> is (or would be) the first of its match.</summary>
         public bool IsMatchStart(int index)
