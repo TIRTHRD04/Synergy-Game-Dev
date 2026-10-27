@@ -12,3 +12,4 @@ v1 (fixed-order N-gram experts with Bayesian model averaging plus Fixed Share, a
 - Each component is kept only if it beats the row above on paired dev seeds (rules in notes/decisions.md); the full spec is .scratch/opponent-v2/spec.md.
 - Lookahead (expectimax over 2-3 exchanges) is deferred until HP or round state changes the best response.
 - With fading and clamped mixing log-odds, CTW is a switching-style approximation, not exact Bayes; this is deliberate so it can track habit changes.
+- Level-k/mirror experts have their own keep rule (notes/decisions.md): no worse on the other archetypes and Out-guesser within max(0.02, 2 x paired SE), and >= 0.3 higher accuracy on scripted level-1 and mirror-1 players. If they do not improve the Out-guesser result they are kept on the scripted tests alone; that is weaker evidence, checked against humans through the logged manual play.
