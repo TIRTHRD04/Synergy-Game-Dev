@@ -7,7 +7,7 @@ With no prior, the Opponent knows nothing for the first ~30 exchanges, which is 
 ## Decision
 
 - The prior is relational, so it survives any theme: for each outcome of the last exchange (win, draw, loss), the probability that the next action is the same as the last action, beats the Opponent's last response, is beaten by it, and so on. Each relation is defined by the outcome matrix, not by action names.
-- It is turned into Dirichlet pseudo-counts for the order-1 and (action, response) experts (and CTW depth-1/2 nodes if v2 ships), with total strength w pseudo-counts per context. w is tuned on dev in [0, 20]; w = 0 means no prior.
+- It is turned into Dirichlet pseudo-counts for the order-1 and (action, response) experts (and CTW depth-1/2 nodes if v2 ships), with total strength w pseudo-counts per context. w is tuned on dev in [0, 20]; w = 0 means no prior. The pseudo-counts are stored apart from observed counts but fade and halve the same way, so the prior is a starting guess that this player's evidence replaces.
 - It is learned only from teammates' play logs (dev data) and shipped as configs/prior.json. Fresh players' logs (the report set) are never used to build it.
 - Commentary and Insights never cite the prior; they describe only this player's evidence.
 
