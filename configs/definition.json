@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "actions": ["Action 1", "Action 2", "Action 3", "Action 4", "Action 5", "Action 6"],
+  "responses": ["Response 1", "Response 2", "Response 3", "Response 4", "Response 5", "Response 6"],
+  "outcomes": ["DWWDLL", "LDWWDL", "LLDWWD", "DLLDWW", "WDLLDW", "WWDLLD"],
+  "damage": [
+    [0, 3, 1, 0, 1, 3],
+    [3, 0, 3, 1, 0, 1],
+    [1, 3, 0, 3, 1, 0],
+    [0, 1, 3, 0, 3, 1],
+    [1, 0, 1, 3, 0, 3],
+    [3, 1, 0, 1, 3, 0]
+  ],
+  "authoredCounters": [5, 0, 1, 2, 3, 4],
+  "bigHit": { "window": 3, "threshold": 7 }
+}
