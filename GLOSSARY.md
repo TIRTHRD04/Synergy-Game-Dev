@@ -33,7 +33,7 @@ _Avoid_: outcome signal, reward
 A response that beats a given action under the outcome matrix. Every action has exactly two counters.
 
 **Authored counter**:
-The designer's default counter for an action, used when the Opponent has no pattern it may claim.
+The designer's preferred counter for an action, used to break ties between equally good responses.
 _Avoid_: authored table, default response
 
 **HP**:

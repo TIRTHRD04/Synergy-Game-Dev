@@ -2,7 +2,7 @@
 
 **Status:** Proposed (2026-10-27)
 
-v1 (fixed-order N-gram experts with Bayesian model averaging plus Fixed Share, and Thompson Sampling over predicted actions per ADR 0006) is built first. v2 adds: two Context Tree Weighting experts (action-first and response-first context, per-visit fading, clamped mixing log-odds) in place of the fixed-order N-gram experts; a longest-match expert (find the longest earlier repeat of the recent history and predict what followed it); level-k meta-strategies in the style of Iocaine Powder, so the Opponent can counter players who adapt to it; and safe exploitation (Ganzfried & Sandholm), mixing the best response with the Nash strategy (uniform under the balanced outcome matrix) by a budget of expected gifts that starts at k0 = 0.25. v2 replaces v1 only if it beats v1 on dev seeds; otherwise v1 stays, and this ADR records why.
+v1 (fixed-order N-gram experts with per-visit fading and Fixed Share mixing, and Thompson Sampling over predicted actions per ADR 0006) is built first. v2 adds: two Context Tree Weighting experts (action-first and response-first context, per-visit fading, clamped mixing log-odds) in place of the fixed-order N-gram experts, keeping v1's order-1 expert as a hedge; a longest-match expert (find the longest earlier repeat of the recent history and predict what followed it); level-k meta-strategies in the style of Iocaine Powder, so the Opponent can counter players who adapt to it; and safe exploitation (Ganzfried & Sandholm), mixing the best response with the Nash strategy (uniform under the balanced outcome matrix) by a budget of expected gifts that starts at k0 = 0.25. v2 replaces v1 only if it beats v1 on dev seeds; otherwise v1 stays, and this ADR records why.
 
 ## Consequences
 
