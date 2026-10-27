@@ -6,6 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(RepoRoot)Assets/Tests/EditMode/**/*.cs" />
+    <!-- The one Game-layer file with no UnityEngine dependency, so its tests also run here. -->
+    <Compile Include="$(RepoRoot)Assets/Scripts/Game/Commitment.cs" />
     <ProjectReference Include="../Core/Core.csproj" />
     <ProjectReference Include="../Sim/Sim.csproj" />
   </ItemGroup>

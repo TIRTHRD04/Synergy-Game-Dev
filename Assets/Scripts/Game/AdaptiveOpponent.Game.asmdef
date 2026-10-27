@@ -1,0 +1,14 @@
+{
+    "name": "AdaptiveOpponent.Game",
+    "rootNamespace": "AdaptiveOpponent.Game",
+    "references": ["AdaptiveOpponent.Core", "AdaptiveOpponent.UI"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
