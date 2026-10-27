@@ -1,26 +1,17 @@
-# 0004: Prediction baseline is an order-k Markov model, compared against frequency counts
+# 0004: The predictor is a Fixed Share mix of count-based experts, checked against frequency counts
 
-**Status:** Proposed. The sim runs a `full` config (all experts, averaged) and a `freq` config (order-0 frequency counts alone) on the same seeds; the result decides this ADR (2026-10-27).
-
-This is a proposed baseline, not a final choice. The headless simulator will compare it against frequency-count prediction before anything is selected.
+**Status:** Proposed (2026-10-27). The sim decides it: the `full` config (all v1 experts, mixed by Fixed Share) runs against the `freq` config (order-0 frequency counts alone) on the same paired dev seeds.
 
 ## Context
 
-The predictor must estimate the player's next action from observed history. It has to adapt to habits, respond to changes in behavior, and stay deterministic and offline.
+The predictor must estimate the player's next action from about 100-300 exchanges per session, adapt to habits, follow changes in behaviour, and stay deterministic and offline. The action set has 6 actions.
 
 ## Decision (proposed)
 
-Use an order-k Markov model with a configurable k and recency decay as the baseline. When there is not enough data, fall back to frequency counts. Break ties deterministically, for example by fixed action order.
-
-The final choice will be made by comparing this baseline with frequency-count prediction in the headless simulator, against the same scripted player sequences.
+Four count-based experts, each with a symmetric Dirichlet prior and per-visit fading: order 0, order 1, order 2, and (previous action, previous response). Fixed Share mixes them, so an expert whose weight fell can recover when the player changes. There is no "sufficient data" switch: the Dirichlet prior handles sparse contexts and Fixed Share moves weight toward whichever expert predicts best. Ties break by lower index.
 
 ## Consequences
 
-- k and the decay rate are configuration parameters, not constants.
-- A "sufficient data" threshold must be defined before the fallback can be used.
-- The simulator must exist before this decision can be finalized.
-- If frequency counts perform as well as the Markov model, the simpler model should be chosen.
-
-## Unresolved dependencies
-
-- The action set size and session length affect how much data is available for a Markov model. Both depend on the TBD gameplay. See [open-questions.md](../open-questions.md).
+- Fading rate, Dirichlet strength and Fixed Share alpha are configuration, tuned on dev seeds.
+- If `freq` is not worse than `full` beyond the paired margin (notes/decisions.md), the simpler `freq` model is chosen and this ADR records it.
+- v2 (ADR 0007) and the population prior (ADR 0008) build on this mix and are judged against it.

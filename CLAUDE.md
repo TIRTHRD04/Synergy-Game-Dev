@@ -1,8 +1,8 @@
 # <GAME NAME> - 1v1 game with a learning AI opponent (Unity)
 
 Goal: the AI opponent learns the player's habits during a match, predicts their next action, picks a counter from
-a fixed response set, and carries what it learned into later matches of the same session (3 matches, ~300
-exchanges).
+a fixed response set, and carries what it learned into later matches of the same session (3 matches, about
+100-300 exchanges).
 Success = (1) the AI measurably adapts (test harness), (2) the player can SEE it adapt (commentary, belief
 overlay, end-of-session summary), (3) the source holds up under review by technical judges.
 Unity version: Unity 6 (6000.x LTS).
@@ -32,8 +32,8 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
   Obj/, Logs/, UserSettings/, builds or keys. ALWAYS commit .meta files together with their assets.
 - NEVER add a package or dependency without a short entry in docs/adr/ (judges read the dependency list).
 - NEVER make network calls from the AI. A pretrained table (for example the population prior, ADR 0008) may ship
-  only as a bundled config file, and only if it beats the no-prior config in the harness and on the human report
-  set. The AI must run offline and be deterministic for a given seed.
+  only as a bundled config file, and only if it beats the no-prior config in the harness and on teammates' play
+  logs. The human report set is only ever used to report, never to decide. The AI must run offline and be deterministic for a given seed.
 
 ## Conventions
 - Reproducibility: one global seed in configs/. All randomness is seeded. Every run is reproducible from
@@ -66,10 +66,10 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
 4. A row exists in experiments/log.csv for this run; no new compiler warnings
 
 ## Repo map
-Assets/Scripts/Core/      pure C#: models, features, response policy, profile, snapshots (own asmdef, no UnityEngine)
+Assets/Scripts/Core/      pure C#: definition, experts, predictor, evidence gate, response selector (own asmdef, no UnityEngine)
 Assets/Scripts/Core.Sim/  archetypes and runner (usable headless)
 Assets/Scripts/Game/      match flow, input, scene wiring
-Assets/Scripts/UI/        overlay, commentary, summary, leaderboard
+Assets/Scripts/UI/        Belief, Commentary, end-of-session summary
 Assets/Tests/             EditMode/ PlayMode/
 configs/  experiments/  seeds/  docs/ (CONTEXT.md, COMMANDS.md, playtest.md, adr/, agents/)  notes/
 GLOSSARY.md  .scratch/<feature>/ (specs and issues)

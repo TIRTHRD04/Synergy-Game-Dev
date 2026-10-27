@@ -5,7 +5,7 @@ Status: approved after grilling (2026-10-27). Source: the team lead's brief, wit
 ## Context
 v1 (notes/decisions.md, "Opponent v1") is built first: order 0/1/2 and (previous action, previous response) experts with per-visit fading, Fixed Share mixing, the evidence gate, and Thompson Sampling once the gate is open. v2 adds the components below behind the same interfaces, one at a time. Each is kept only if it beats the version without it on paired dev seeds (ADR 0004: the simpler model wins ties). One experiments/log.csv row per ablation.
 
-Data volume (about 300 exchanges per session) is the binding limit, not compute. Every component is chosen for sample efficiency.
+Data volume (about 100-300 exchanges per real session; 300 in the fixed-length harness) is the binding limit, not compute. Every component is chosen for sample efficiency.
 
 ## 1. Context Tree Weighting (CTW) experts
 Two CTW experts, differing only in context order:
