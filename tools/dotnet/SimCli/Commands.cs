@@ -25,6 +25,8 @@ namespace AdaptiveOpponent.SimCli
             new Metric { Name = "log-loss", Value = s => s.LogLoss, HigherIsBetter = false, Floor = 0.02 },
             new Metric { Name = "payoff", Value = s => s.MeanPayoff, HigherIsBetter = true, Floor = 0.06 },
             new Metric { Name = "win rate", Value = s => s.WinRate, HigherIsBetter = true, Floor = 0.02 },
+            new Metric { Name = "replay accuracy", Value = s => s.ReplayAccuracy, HigherIsBetter = true, Floor = 0.02 },
+            new Metric { Name = "burned log-loss", Value = s => s.BurnedLogLoss, HigherIsBetter = false, Floor = 0.02 },
         };
 
         /// <summary>
@@ -51,9 +53,7 @@ namespace AdaptiveOpponent.SimCli
             {
                 foreach (Metric m in Metrics)
                 {
-                    double[] b = baseResult.PerSeed(a, m.Value);
-                    double[] n = newResult.PerSeed(a, m.Value);
-                    if (HasNaN(b) || HasNaN(n))
+                    if (!Paired(baseResult.PerSeed(a, m.Value), newResult.PerSeed(a, m.Value), out double[] b, out double[] n))
                     {
                         continue;
                     }
@@ -72,16 +72,22 @@ namespace AdaptiveOpponent.SimCli
             return 0;
         }
 
-        private static bool HasNaN(double[] values)
+        // Keeps the seeds where both runs have a value (a seed with no replays has none); needs two such seeds.
+        private static bool Paired(double[] baseAll, double[] newAll, out double[] b, out double[] n)
         {
-            foreach (double v in values)
+            var keepBase = new List<double>();
+            var keepNew = new List<double>();
+            for (int i = 0; i < baseAll.Length; i++)
             {
-                if (double.IsNaN(v))
+                if (!double.IsNaN(baseAll[i]) && !double.IsNaN(newAll[i]))
                 {
-                    return true;
+                    keepBase.Add(baseAll[i]);
+                    keepNew.Add(newAll[i]);
                 }
             }
-            return false;
+            b = keepBase.ToArray();
+            n = keepNew.ToArray();
+            return b.Length >= 2;
         }
 
         private static double Mean(double[] values)

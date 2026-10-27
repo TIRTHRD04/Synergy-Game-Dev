@@ -147,6 +147,24 @@ namespace AdaptiveOpponent.Sim
         /// <summary>Replay exchanges, by position.</summary>
         public int[] ReplayCounts { get; }
 
+        /// <summary>Top-prediction accuracy over every replay exchange of this session (NaN when there were none).</summary>
+        public double ReplayAccuracy
+        {
+            get
+            {
+                int hits = 0, n = 0;
+                for (int p = 0; p < ReplayPositions; p++)
+                {
+                    hits += ReplayHits[p];
+                    n += ReplayCounts[p];
+                }
+                return Ratio(hits, n);
+            }
+        }
+
+        /// <summary>Mean log-loss over exchanges in burned contexts (NaN when there were none).</summary>
+        public double BurnedLogLoss => BurnedCount > 0 ? BurnedLogLossSum / BurnedCount : double.NaN;
+
         /// <summary>Summed log-loss over exchanges in burned contexts.</summary>
         public double BurnedLogLossSum { get; }
 
