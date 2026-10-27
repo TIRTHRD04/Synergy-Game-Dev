@@ -68,8 +68,11 @@ namespace AdaptiveOpponent.Core
         /// <summary>Avoidance expert: how strongly a recorded big hit lowers the Opening's probability.</summary>
         public double AvoidanceBeta { get; private set; }
 
-        /// <summary>Whether big-hit experts also fire on broad matches (previous action only).</summary>
-        public bool BroadMatches { get; private set; }
+        /// <summary>Whether the Big-hit sequence expert also fires on broad matches (previous action only).</summary>
+        public bool SequenceBroadMatches { get; private set; }
+
+        /// <summary>Whether the Avoidance expert also fires on broad matches (previous action only).</summary>
+        public bool AvoidanceBroadMatches { get; private set; }
 
         /// <summary>Returns true when <paramref name="expert"/> is in the expert list.</summary>
         public bool Uses(string expert) => Array.IndexOf(Experts, expert) >= 0;
@@ -111,17 +114,15 @@ namespace AdaptiveOpponent.Core
             {
                 config.SafeBudgetStart = root.Get("safeBudgetStart").AsDouble();
             }
-            if (config.Uses("bigHitSequence") || config.Uses("avoidance"))
-            {
-                config.BroadMatches = root.Get("bigHitBroadMatches").AsBool();
-            }
             if (config.Uses("bigHitSequence"))
             {
                 config.BigHitStrength = root.Get("bigHitStrength").AsDouble();
+                config.SequenceBroadMatches = root.Get("sequenceBroadMatches").AsBool();
             }
             if (config.Uses("avoidance"))
             {
                 config.AvoidanceBeta = root.Get("avoidanceBeta").AsDouble();
+                config.AvoidanceBroadMatches = root.Get("avoidanceBroadMatches").AsBool();
             }
             return config;
         }

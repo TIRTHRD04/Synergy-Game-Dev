@@ -40,7 +40,7 @@ namespace AdaptiveOpponent.Core
             this.rng = rng;
             History = new ExchangeHistory(historyCapacity, definition.ActionCount, definition.ResponseCount);
             detector = new BigHitDetector(definition);
-            bigHits = new BigHitMemory(definition, config.BroadMatches);
+            bigHits = new BigHitMemory(definition, config.SequenceBroadMatches, config.AvoidanceBroadMatches);
             int count = config.Experts.Length;
             forecasts = new double[count][];
             for (int i = 0; i < count; i++)

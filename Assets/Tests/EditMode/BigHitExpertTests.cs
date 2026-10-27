@@ -25,7 +25,7 @@ namespace AdaptiveOpponent.Tests
 
             public Setup(bool broad)
             {
-                Memory = new BigHitMemory(Def, broad);
+                Memory = new BigHitMemory(Def, broad, broad);
                 Sequence = new BigHitSequenceExpert(Def, Memory.OnOpponent, S, broad);
                 Avoidance = new AvoidanceExpert(Def, Memory.OnPlayer, 1.0, broad);
                 History.StartMatch();
@@ -237,7 +237,7 @@ namespace AdaptiveOpponent.Tests
                 ["gateThreshold"] = "-1",
                 ["experts"] = "[\"bigHitSequence\"]",
                 ["bigHitStrength"] = "3",
-                ["bigHitBroadMatches"] = "false",
+                ["sequenceBroadMatches"] = "false",
             });
             Opponent opponent = TestConfigs.Make(config, 2);
             opponent.StartMatch();

@@ -52,9 +52,9 @@ namespace AdaptiveOpponent.Core
                 case "ctwResponseFirst": return new CtwExpert(CtwOrder.ResponseFirst, definition, config, historyCapacity);
                 case "longestMatch": return new LongestMatchExpert(definition);
                 case "bigHitSequence":
-                    return new BigHitSequenceExpert(definition, bigHits.OnOpponent, config.BigHitStrength, config.BroadMatches);
+                    return new BigHitSequenceExpert(definition, bigHits.OnOpponent, config.BigHitStrength, config.SequenceBroadMatches);
                 case "avoidance":
-                    return new AvoidanceExpert(definition, bigHits.OnPlayer, config.AvoidanceBeta, config.BroadMatches);
+                    return new AvoidanceExpert(definition, bigHits.OnPlayer, config.AvoidanceBeta, config.AvoidanceBroadMatches);
                 default: throw new ArgumentException("unknown expert \"" + name + "\"");
             }
         }

@@ -80,7 +80,21 @@ namespace AdaptiveOpponent.Sim
             MeanPayoff = x.Count > 0 ? payoff / x.Count : double.NaN;
             WinRate = Ratio(wins, x.Count);
             Oracle = oracleN > 0 ? oracle / oracleN : double.NaN;
+            for (int m = 0; m < record.OpponentHpAtEnd.Count; m++)
+            {
+                int mine = record.OpponentHpAtEnd[m], theirs = record.PlayerHpAtEnd[m];
+                bool won = theirs <= 0 || (mine > 0 && mine > theirs);
+                bool lost = mine <= 0 || (theirs > 0 && theirs > mine);
+                MatchesWon += won && !lost ? 1 : 0;
+                MatchesLost += lost && !won ? 1 : 0;
+            }
         }
+
+        /// <summary>Matches the Opponent won (the player's HP hit 0, or the Opponent had more HP at the cap).</summary>
+        public int MatchesWon { get; }
+
+        /// <summary>Matches the Opponent lost.</summary>
+        public int MatchesLost { get; }
 
         /// <summary>The archetype that played.</summary>
         public string PlayerName { get; }

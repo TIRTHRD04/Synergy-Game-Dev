@@ -189,10 +189,10 @@ namespace AdaptiveOpponent.Core
     public sealed class BigHitMemory
     {
         /// <summary>Creates both pools for the definition's big-hit window.</summary>
-        public BigHitMemory(GameDefinition definition, bool broadMatches)
+        public BigHitMemory(GameDefinition definition, bool sequenceBroadMatches, bool avoidanceBroadMatches)
         {
-            OnOpponent = new BigHitPool(definition.BigHitWindow, broadMatches);
-            OnPlayer = new BigHitPool(1, broadMatches);
+            OnOpponent = new BigHitPool(definition.BigHitWindow, sequenceBroadMatches);
+            OnPlayer = new BigHitPool(1, avoidanceBroadMatches);
         }
 
         /// <summary>Big-hit memory: big hits the player landed on the Opponent, with the whole Big-hit sequence.</summary>

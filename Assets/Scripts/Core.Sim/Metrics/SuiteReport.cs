@@ -11,7 +11,7 @@ namespace AdaptiveOpponent.Sim
         {
             var sb = new StringBuilder();
             sb.AppendLine("config " + configName + ", " + seedCount + " seeds, chance = " + F(1.0 / 6));
-            sb.AppendLine("archetype         early   late    all     oracle  payoff  winrate bits/ex gate    insights recalls lambda>0");
+            sb.AppendLine("archetype         early   late    all     oracle  payoff  winrate bits/ex gate    insights recalls lambda>0 exch    matchW/L");
             for (int a = 0; a < result.ArchetypeNames.Length; a++)
             {
                 sb.Append(result.ArchetypeNames[a].PadRight(18));
@@ -25,7 +25,9 @@ namespace AdaptiveOpponent.Sim
                 sb.Append((result.GateOpenedSeeds(a) + "/" + seedCount).PadRight(8));
                 sb.Append(result.Total(a, s => s.Insights).ToString(CultureInfo.InvariantCulture).PadRight(9));
                 sb.Append(result.Total(a, s => s.Recalls).ToString(CultureInfo.InvariantCulture).PadRight(8));
-                sb.AppendLine(result.Total(a, s => s.LambdaNonZero).ToString(CultureInfo.InvariantCulture));
+                sb.Append(result.Total(a, s => s.LambdaNonZero).ToString(CultureInfo.InvariantCulture).PadRight(9));
+                sb.Append(Col(result.Mean(a, s => s.Exchanges)));
+                sb.AppendLine(result.Total(a, s => s.MatchesWon) + "/" + result.Total(a, s => s.MatchesLost));
             }
             for (int a = 0; a < result.ArchetypeNames.Length; a++)
             {
