@@ -47,7 +47,7 @@ Three matches played in one run of the game. The Opponent's learning lasts for o
 _Avoid_: run, game
 
 **Archetype**:
-A scripted behaviour that plays in place of a human player, used to check that the Opponent adapts. The four archetypes are Spammer, Cycler, Win-stay/lose-shift and Random.
+A scripted behaviour that plays in place of a human player, used to check that the Opponent adapts. The five archetypes are Spammer, Cycler, Win-stay/lose-shift, Out-guesser and Random.
 _Avoid_: simulated player, bot, scripted player
 
 ### The Opponent's parts
@@ -64,7 +64,7 @@ One of the predictor's sub-models; each looks at a different slice of recent his
 _Avoid_: model, sub-predictor
 
 **Memory**:
-What the Opponent has learned in the current session: its experts' counts, their weights and the evidence gate's score. It carries across the matches of a session and is dropped at session end.
+What the Opponent has learned in the current session: its experts' counts, their weights, the evidence gate's score and, in v2, the session's raw exchange history. It carries across the matches of a session and is dropped at session end.
 _Avoid_: observation log, profile (reserved for Memory saved to disk, not built)
 
 **Evidence gate**:

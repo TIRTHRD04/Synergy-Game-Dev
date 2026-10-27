@@ -1,6 +1,6 @@
 # Spec: Opponent v2 (maximum strength)
 
-Status: under grilling (2026-10-27). Source: brief from the team lead, pasted into the design session. Open points are listed at the end; the decisions that resolve them go to notes/decisions.md and ADR 0007.
+Status: grilled (2026-10-27); round 4 corrections recorded in notes/decisions.md override the text below where they differ. Source: brief from the team lead, pasted into the design session. Open points are listed at the end; the decisions that resolve them go to notes/decisions.md and ADR 0007.
 
 ## Context
 Rounds 1 and 2 define v1: 4 N-gram experts (order 0, 1, 2, and previous action + previous response), model averaging, the evidence gate, and a response selector over the fixed outcome matrix. The team wants the strongest Opponent that is still theoretically sound. Build v1 first, then add each v2 component behind the existing interfaces, one at a time. Keep a component only if it beats the version without it on dev seeds (ADR 0004: the simpler model wins ties). Record v2 in an ADR, one line in notes/decisions.md, one experiments/log.csv row per ablation.
