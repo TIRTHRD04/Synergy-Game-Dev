@@ -59,6 +59,30 @@ The component that estimates the probability of each action in the next exchange
 The component that turns the predicted action probabilities into one committed response. See [ADR 0006](docs/adr/0006-response-selection-fixed-payoffs.md).
 _Avoid_: counter selector
 
+**Expert**:
+One of the predictor's sub-models; each looks at a different slice of recent history and gives its own probability for every action.
+_Avoid_: model, sub-predictor
+
+**Memory**:
+What the Opponent has learned in the current session: its experts' counts, their weights and the evidence gate's score. It carries across the matches of a session and is dropped at session end.
+_Avoid_: observation log, profile (reserved for Memory saved to disk, not built)
+
+**Evidence gate**:
+The test that decides whether the Opponent has enough evidence that the player is predictable to claim any pattern at all.
+_Avoid_: confidence check, threshold
+
+**Insight**:
+A statement about the player's pattern that the Opponent may show: the evidence gate is open and the current prediction is strong and well supported.
+_Avoid_: claim (as a noun), observation
+
+**Commentary**:
+Player-facing lines built only from Insights.
+_Avoid_: banter, flavour text
+
+**Belief**:
+The Opponent's current top predictions, leading expert and confidence, as shown on screen.
+_Avoid_: belief snapshot, belief overlay
+
 **Prediction accuracy**:
 The fraction of exchanges in which the predictor's single most likely action, fixed before the player acted, matched the action the player actually picked. Chance is one over the number of actions.
 _Avoid_: AI accuracy, hit rate
