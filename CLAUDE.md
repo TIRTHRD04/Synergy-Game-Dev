@@ -32,12 +32,12 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
   Obj/, Logs/, UserSettings/, builds or keys. ALWAYS commit .meta files together with their assets.
 - NEVER add a package or dependency without a short entry in docs/adr/ (judges read the dependency list).
 - NEVER make network calls from the AI. A pretrained table (for example the population prior, ADR 0008) may ship
-  only as a bundled config file, and only if it beats the no-prior config in the harness and on teammates' play
-  logs. The human report set is only ever used to report, never to decide. The AI must run offline and be deterministic for a given seed.
+  only as a bundled config file, and only if it passes ADR 0008's rule: better than no prior on teammates' play logs,
+  not worse on any archetype by more than the margin. The human report set is only ever used to report. The AI must run offline and be deterministic for a given seed.
 
 ## Conventions
-- Reproducibility: one global seed in configs/. All randomness is seeded. Every run is reproducible from
-  config + git hash.
+- Reproducibility: the harness uses the fixed seeds in configs/ and seeds/; each real game session draws its own seed
+  and logs it. All randomness in the core is seeded. Every run is reproducible from config + seed + git hash.
 - A missing, old or corrupt saved profile must never crash the game. (Dormant: no saved profiles for now.)
 - Performance: the AI decision path has a budget of 1 ms per decision (Decide + Observe) and no per-frame heap allocations in
   per-frame code. Measure with the profiler before claiming anything.
@@ -59,6 +59,8 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
 - Never trust "it works": get an independent review (csharp-reviewer or code-reviewer) before merging big changes.
 
 ## Before saying "done"
+Claude can run the dotnet core tests and step 2 in the container; steps 1 (Unity Test Runner) and 3 need a teammate
+with Unity 6, and Claude reports them as pending until a teammate confirms.
 1. EditMode + PlayMode tests, using the command in docs/COMMANDS.md
    (batchmode example: Unity -batchmode -runTests -testPlatform EditMode -projectPath . -testResults results.xml)
 2. Archetype suite on seeds/heldout/, raw output shown

@@ -13,7 +13,7 @@ With no prior, the Opponent knows nothing for the first ~30 exchanges, which is 
 
 ## Acceptance
 
-The decision is made on teammates' play logs only, by leave-one-player-out: build the prior from all teammates but one, test on that one, repeat for each. Ship it if early prediction accuracy (exchanges 1-30) beats w = 0 on average across those folds, no archetype is worse by more than the max(0.02, 2 x paired SE) margin, and Random still makes 0 claims. The fresh players' report set is then used once, to report the result, never to decide or tune. Otherwise configs/prior.json stays out and this ADR records why.
+The decision is made on teammates' play logs only, by leave-one-player-out: build the prior from all teammates but one, test on that one, repeat for each. Ship it if early prediction accuracy (exchanges 1-30) beats w = 0 on average across those folds, no archetype is worse by more than the max(0.02, 2 x paired SE) margin, and Random still never opens the evidence gate. Prior pseudo-counts never count toward an Insight's minimum observed count. The fresh players' report set is then used once, to report the result, never to decide or tune. Otherwise configs/prior.json stays out and this ADR records why.
 
 ## Considered options
 

@@ -18,4 +18,4 @@ The AI is an in-game opponent. It learns a player's habits across matches, predi
 
 ## Unresolved dependencies
 
-- The genre and player objective determine what the opponent is playing against. See [open-questions.md](../open-questions.md).
+- Resolved 2026-10-27: the core is theme-agnostic (actions, responses and the outcome matrix are data), so the genre no longer blocks this decision. The surprise jam theme only decides names and presentation.

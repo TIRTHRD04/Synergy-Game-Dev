@@ -13,3 +13,4 @@ The outcome matrix is game data that the Opponent already knows exactly, so lear
 
 - Determinism (ADR 0002): the Rng seed comes from `configs/` and is an input. Ties break by lowest index. Tests may switch, by config flag, to the posterior mean instead of a sample; this is the same code path.
 - The outcome matrix must be balanced (each response beats 2 actions, draws with 2, loses to 2), validated on load, so every action has exactly two counters.
+- Known v1 limit: the evidence gate latches, so a player who turns random after it opens still faces Thompson Sampling. As counts fade the samples flatten toward uniform, so the loss stays small, but nothing bounds it. Commentary stays honest because an Insight also needs a current strong prediction. v2's safe-exploitation budget is the fix, if it survives its ablation.

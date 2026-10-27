@@ -26,7 +26,7 @@ Update: increment counts on the path, then update each node leaf to root. After 
 
 Fading is per visit: a node's counts are multiplied by gamma (start 0.98, tuned on dev) each time the node is on the path. Global-time fading is one ablation row.
 
-Preallocated node pool (<= 400 exchanges x D x 2 trees). No per-decision allocation.
+Preallocated node pool (<= 400 exchanges x D x 3 trees: action-first, response-first and the mirror CTW over responses). No per-decision allocation.
 
 Unit test: one node is fed 50 symbols favouring its own estimate, then 50 favouring the child; beta crosses 0.5 within 15 symbols of the flip.
 
@@ -83,12 +83,12 @@ Pure C#, deterministic per seed, ties by fixed index, offline. Under 1 ms per de
 
 ## 9. Acceptance
 - All tuned parameters (gate threshold, k0, alpha, gamma) are fixed on dev seeds before the single heldout run, never changed after it.
-- Comparisons use paired seeds; margin = max(0.02, 2 x paired SE).
+- Comparisons use paired seeds; margin = max(0.02, t x paired SE), t = Student-t 95% critical value for (seeds - 1) df.
 - v2 >= v1 - margin on mean late prediction accuracy for every archetype.
-- Strict wins: v2 beats v1 by more than 2 paired SE on Win-stay/lose-shift win rate and on Out-guesser payoff.
-- Random: 0 claims over the heldout seeds and lambda = 0 on every exchange. Mean payoff within v* +/- 0.05 is a simulator check.
+- Strict wins: v2 beats v1 by more than t x paired SE on Win-stay/lose-shift win rate and on Out-guesser payoff.
+- Random: the evidence gate never opens on any heldout seed (so no Insights) and lambda = 0 on every exchange. Mean payoff within v* +/- 0.05 is a simulator check.
 - Habit-switch unit test passes.
-- Ablation rows (dev, greedy, in order): v1, v1 without Fixed Share, +CTW x2, +longest-match, +level-k/mirror, +safe exploitation, optional +CTW at 3 gammas, global-time fading. Predictor rows are judged on prediction accuracy, selector rows on payoff. A row beats the one above if it improves at least one archetype by more than 2 paired SE and is not worse on any by more than the margin.
+- Ablation rows (dev, greedy, in order): v1, v1 without Fixed Share, +CTW x2, +longest-match, +level-k/mirror, +safe exploitation, optional +CTW at 3 gammas, global-time fading. Predictor rows are judged on prediction accuracy, selector rows on payoff. A row beats the one above if it improves at least one archetype by more than t x paired SE and is not worse on any by more than the margin.
 
 ## Not used (for docs/CONTEXT.md)
 - Neural networks and LSTMs: far too little data; pretrained models are not allowed.

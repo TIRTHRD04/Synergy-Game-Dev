@@ -14,7 +14,7 @@ The AI core is pure C#. It has no UnityEngine dependency and no network access. 
 
 - The core can be tested headlessly with a simulator and standard unit tests.
 - Every input the core uses comes through an interface: the definition (actions, responses, outcome matrix), the exchange stream (action, response, outcome) and the seeded Rng. There is no state snapshot (ADR 0003, deferred) and no storage.
-- Ties in prediction and response selection break deterministically: the authored counter, then the lower index.
+- Ties break deterministically: between predicted actions by the lower index; between responses by the authored counter, then the lower index.
 - The Unity adapter stays thin, and all decisions live in the core.
 
 ## Notes

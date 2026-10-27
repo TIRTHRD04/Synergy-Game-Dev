@@ -3,7 +3,7 @@
 Status: approved after grilling (2026-10-27). Decisions: notes/decisions.md. ADRs 0002-0008. v2 spec: .scratch/opponent-v2/spec.md.
 
 ## Build order (one commit per step, branch claude/vigilant-ramanujan-3t7kvy)
-1. Setup: .NET 8 in the container, tools/dotnet csproj files, docs/CONTEXT.md (actions, responses, rules, 5 archetypes, pass criteria, methods and "not used"), docs/COMMANDS.md, docs/open-questions.md (lookahead, variable damage), ADR 0009 (test-only NUnit, dotnet tooling), .gitignore.
+1. Setup: .NET 8 in the container, tools/dotnet csproj files, docs/CONTEXT.md (actions, responses, rules, 5 archetypes, pass criteria, methods and "not used"), docs/COMMANDS.md, docs/open-questions.md (lookahead, variable damage), ADR 0009 (test-only NUnit, dotnet tooling; written in this step), .gitignore.
 2. Definition loader with balanced-matrix and Nash checks, seeded Rng, IPlayer, 5 archetypes (Spammer, Cycler, Win-stay/lose-shift, Out-guesser, Random) with oracle ceilings, Session loop (fixed-length harness mode and game-rules mode), sim runner against a uniform Opponent. Test-first.
 3. v1 predictor: order 0/1/2 and (action, response) experts with per-visit fading, Fixed Share mixing, evidence gate, habit-switch test.
 4. v1 selector and Opponent: uniform while the gate is closed, Thompson Sampling once open; Opponent facade, Belief, Insights, Commentary, end-of-session summary.
