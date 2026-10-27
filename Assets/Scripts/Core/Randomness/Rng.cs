@@ -32,6 +32,12 @@ namespace AdaptiveOpponent.Core
             return new Rng(SplitMix64(sessionSeed ^ (id * 0x9E3779B97F4A7C15UL)), SplitMix64(id + 0xD1B54A32D192ED03UL));
         }
 
+        /// <summary>Derives a session seed from the global seed in configs/ and one run seed from a seeds file.</summary>
+        public static ulong DeriveSeed(ulong globalSeed, ulong runSeed)
+        {
+            return SplitMix64(SplitMix64(globalSeed) ^ runSeed);
+        }
+
         /// <summary>The next uniformly distributed 32-bit value.</summary>
         public uint NextUInt()
         {
