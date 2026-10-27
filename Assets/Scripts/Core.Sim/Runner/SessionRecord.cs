@@ -26,7 +26,7 @@ namespace AdaptiveOpponent.Sim
         public double Lambda;
         /// <summary>What the player's action was for.</summary>
         public PlayerTag Tag;
-        /// <summary>What the Commentary showed after this exchange.</summary>
+        /// <summary>What the Commentary showed while this exchange was committed.</summary>
         public CommentaryKind Commentary;
         /// <summary>The archetype's oracle probability for this exchange (NaN when it has none).</summary>
         public double OracleProbability;

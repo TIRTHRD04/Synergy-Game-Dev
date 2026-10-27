@@ -39,7 +39,7 @@ namespace AdaptiveOpponent.Core
         /// <summary>The weight on the best response in the committed strategy (0 while the gate is closed).</summary>
         double Lambda { get; }
 
-        /// <summary>What the Commentary shows after the last <see cref="Observe"/>.</summary>
+        /// <summary>What the Commentary shows for the exchange committed by the last <see cref="Decide"/>.</summary>
         CommentaryKind Commentary { get; }
     }
 }

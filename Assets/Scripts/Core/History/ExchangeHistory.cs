@@ -100,6 +100,19 @@ namespace AdaptiveOpponent.Core
             return IsMatchStart(index) ? MatchStartAction : actions[index - 1];
         }
 
+        /// <summary>
+        /// The action two exchanges before exchange <paramref name="index"/> in the same match, or
+        /// <see cref="MatchStartAction"/> when the match has not had that many exchanges yet.
+        /// </summary>
+        public int SecondPrevActionBefore(int index)
+        {
+            if (IsMatchStart(index) || IsMatchStart(index - 1))
+            {
+                return MatchStartAction;
+            }
+            return actions[index - 2];
+        }
+
         /// <summary>The previous response before exchange <paramref name="index"/>, or <see cref="MatchStartResponse"/>.</summary>
         public int PrevResponseBefore(int index)
         {

@@ -59,6 +59,7 @@ namespace AdaptiveOpponent.Sim
                     int top = opponent.TopPrediction;
                     bool gate = opponent.GateOpen;
                     double lambda = opponent.Lambda;
+                    CommentaryKind commentary = opponent.Commentary;
                     double oracleP = oracle != null ? oracle.OracleProbability(history) : double.NaN;
                     int action = player.Act(history);
                     double pAction = opponent.ForecastOf(action);
@@ -88,7 +89,7 @@ namespace AdaptiveOpponent.Sim
                         GateOpen = gate,
                         Lambda = lambda,
                         Tag = player.Tag,
-                        Commentary = opponent.Commentary,
+                        Commentary = commentary,
                         OracleProbability = oracleP,
                         DecisionTicks = decideTicks + watch.ElapsedTicks,
                     });
