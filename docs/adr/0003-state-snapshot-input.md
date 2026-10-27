@@ -1,6 +1,8 @@
 # 0003: Input is action history plus a minimal state snapshot
 
-**Status:** Provisional
+**Status:** Deferred: history-only chosen (2026-10-27)
+
+The Opponent predicts from action history alone, the fallback this ADR allows. The predictor interface takes no snapshot. If a snapshot is added later, HP is the first candidate field.
 
 ## Context
 

@@ -1,6 +1,6 @@
 # 0004: Prediction baseline is an order-k Markov model, compared against frequency counts
 
-**Status:** Proposed
+**Status:** Proposed. The sim runs a `full` config (all experts, averaged) and a `freq` config (order-0 frequency counts alone) on the same seeds; the result decides this ADR (2026-10-27).
 
 This is a proposed baseline, not a final choice. The headless simulator will compare it against frequency-count prediction before anything is selected.
 

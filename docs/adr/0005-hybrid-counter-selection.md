@@ -1,6 +1,8 @@
 # 0005: Counter selection is hybrid: authored defaults adjusted by outcomes
 
-**Status:** Provisional
+**Status:** Superseded by [ADR 0006](0006-response-selection-fixed-payoffs.md) (2026-10-27)
+
+The outcome matrix is fixed game data, so payoffs are rules, not unknowns, and no outcome signal is needed to learn them.
 
 ## Context
 

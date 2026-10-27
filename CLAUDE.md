@@ -1,17 +1,18 @@
 # <GAME NAME> - 1v1 game with a learning AI opponent (Unity)
 
 Goal: the AI opponent learns the player's habits during a match, predicts their next action, picks a counter from
-a fixed response set, and carries what it learned into later matches (~200-400 player actions per session).
+a fixed response set, and carries what it learned into later matches of the same session (3 matches, ~300
+exchanges).
 Success = (1) the AI measurably adapts (test harness), (2) the player can SEE it adapt (commentary, belief
-overlay, post-match summary + leaderboard), (3) the source holds up under review by technical judges.
-Deadline: <date>. Freeze day: <date, also recorded in notes/decisions.md>. Unity version: <fill in>.
+overlay, end-of-session summary), (3) the source holds up under review by technical judges.
+Unity version: Unity 6 (6000.x LTS).
 Design is not fixed in this file. Opus proposes it in Plan Mode; the approved design goes in docs/adr/.
 
 Team: <n> people, coordinating outside Claude. Claude cannot see that chat. Anything decided there that affects
 code or rules must be pasted into notes/decisions.md (one dated line) or it does not exist.
 
 Read first: GLOSSARY.md, docs/CONTEXT.md (game rules, action set, response set), notes/decisions.md,
-notes/lessons.md, notes/handoff.md, docs/COMMANDS.md (build/test commands).
+notes/lessons.md, docs/COMMANDS.md (build/test commands).
 If a fact (actions, responses, rules, Unity version, API) is not in those files, ask. Never guess.
 
 ## Hard rules (never break)
@@ -36,8 +37,8 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
 ## Conventions
 - Reproducibility: one global seed in configs/. All randomness is seeded. Every run is reproducible from
   config + git hash.
-- A missing, old or corrupt saved profile must never crash the game.
-- Performance: the AI decision path has a budget of <ms> per decision and no per-frame heap allocations in
+- A missing, old or corrupt saved profile must never crash the game. (Dormant: no saved profiles for now.)
+- Performance: the AI decision path has a budget of 1 ms per decision (Decide + Observe) and no per-frame heap allocations in
   per-frame code. Measure with the profiler before claiming anything.
 - Harness: simulated player archetypes (listed in docs/CONTEXT.md) validate adaptation; pass criteria live there
   too. Report per archetype and per match phase, with learning curves (accuracy vs actions seen), never only a
@@ -46,12 +47,11 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
   runtime, notes.
 - Code for reviewers: files under ~400 lines, no dead or commented-out code, no stale TODOs at submission, XML
   docs on public types. Use the terms in GLOSSARY.md exactly; no synonyms for the same concept.
-- Freeze rule: after the freeze day only fixes, polish and docs. No new features.
 
 ## Workflow
 - Plan Mode first for anything non-trivial. One task per session; commit, then /clear. Run /context early.
   Compact at milestones, not mid-refactor.
-- The learning code, the harness and saved-profile handling are test-first (/tdd). Scene and UI work is
+- The learning code and the harness are test-first (/tdd). Scene and UI work is
   validated by docs/playtest.md and a run in the editor, not unit tests.
 - After a non-obvious bug, add a line to notes/lessons.md before closing the session.
 - Decisions go in docs/adr/. Report the file path as proof. "Remember this" is not a record.
@@ -61,7 +61,7 @@ If a fact (actions, responses, rules, Unity version, API) is not in those files,
 1. EditMode + PlayMode tests, using the command in docs/COMMANDS.md
    (batchmode example: Unity -batchmode -runTests -testPlatform EditMode -projectPath . -testResults results.xml)
 2. Archetype suite on seeds/heldout/, raw output shown
-3. Smoke check: a full match runs in the editor, the summary screen shows, the profile saves and reloads
+3. Smoke check: a full match runs in the editor, the summary screen shows after 3 matches
 4. A row exists in experiments/log.csv for this run; no new compiler warnings
 
 ## Repo map
