@@ -8,3 +8,4 @@ One line per non-obvious problem, so it is not repeated.
 - 2026-10-27: When every expert abstains, Thompson Sampling drew a sleeping expert and sampled a stale posterior. The selector now plays sigma* when no expert is awake.
 - 2026-10-27: Scripted level-1/mirror-1 players that modelled the Opponent slightly differently (fade 0.9 vs 0.98, order-1 counts vs CTW) flipped the best response often enough to make a correct meta expert look broken (0.27 vs a 0.467 ceiling). A test player "of its type" must use exactly the expert's model.
 - 2026-10-27: `dotnet run --no-build` runs the last build of the CLI, not the current sources. Rebuild before measuring.
+- 2026-10-27: experiments/log.csv is tracked, so the first append marked every later run "-dirty". The dirty check now ignores experiments/. Rows ablation-02 to ablation-07 ran on 458fe96 and ablation-09 to v2-dev-suite on 244901d with no code changes; their "-dirty" came only from the log.

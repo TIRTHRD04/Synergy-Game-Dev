@@ -1,6 +1,6 @@
 # 0004: The predictor is a Fixed Share mix of count-based experts, checked against frequency counts
 
-**Status:** Proposed (2026-10-27). The sim decides it: the `full` config (all v1 experts, mixed by Fixed Share) runs against the `freq` config (order-0 frequency counts alone) on the same paired dev seeds.
+**Status:** Accepted (2026-10-27): the full config beats freq on dev seeds (Cycler +0.659, Win-stay/lose-shift +0.320, Out-guesser +0.113 late prediction accuracy) and is not worse on any archetype (experiments/runs/adr0004-freq-vs-v1.txt). The sim decided it: the `full` config (all v1 experts, mixed by Fixed Share) runs against the `freq` config (order-0 frequency counts alone) on the same paired dev seeds.
 
 ## Context
 

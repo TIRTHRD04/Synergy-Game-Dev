@@ -83,7 +83,8 @@ namespace AdaptiveOpponent.SimCli
         internal static string GitHash()
         {
             string hash = Git("rev-parse --short HEAD").Trim();
-            string dirty = Git("status --porcelain --untracked-files=no").Trim();
+            // The run's own outputs (experiments/) do not make the code dirty.
+            string dirty = Git("status --porcelain --untracked-files=no -- . :!experiments").Trim();
             return dirty.Length > 0 ? hash + "-dirty" : hash;
         }
 

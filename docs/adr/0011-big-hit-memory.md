@@ -1,6 +1,6 @@
 # 0011: The Opponent remembers big hits, and that the player avoids theirs
 
-**Status:** Proposed (2026-10-27). Each part ships only if its ablation row wins (below).
+**Status:** Accepted in part (2026-10-27). Kept: the Big-hit sequence expert with exact (replay accuracy +0.049) and broad matches (+0.244, to 0.829), and the Avoidance expert with exact matches (burned-context log-loss -0.048). Rejected: broad matches for the Avoidance expert (log-loss worse by 0.020). Raw output: experiments/runs/ablation-08 to ablation-11.
 
 A player who takes a nasty string of hits remembers the situation it started from for the rest of the game. This ADR gives the Opponent the same kind of memory, in both directions: it remembers the big hits the player landed on it, and it learns that the player avoids the spots where the player was hit hard. Detecting a big hit is not a rule change; no extra damage is dealt.
 

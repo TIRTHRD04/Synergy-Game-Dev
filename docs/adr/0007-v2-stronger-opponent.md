@@ -1,6 +1,9 @@
 # 0007: v2 Opponent: CTW, longest match, level-k and safe exploitation, only if it beats v1
 
-**Status:** Proposed (2026-10-27)
+**Status:** Accepted in part (2026-10-27), after the dev ablations in notes/decisions.md ("Dev ablation results"):
+- Kept: longest-match (a negligible gain, kept by the rule) and safe exploitation with k0 = 3 (better payoff against Cycler, Win-stay/lose-shift and Out-guesser; both strict wins).
+- Rejected: CTW x2 (worse beyond the margin on Big-hit repeater), level-k/mirror (failed keep rule (b): +0.126 and +0.213, below +0.3), global-time fading.
+- So v2 (configs/v2.json) is v1's experts plus longest-match, the ADR 0011 experts and safe exploitation. The rejected code stays only for configs/v2-full-experimental.json in the playtest build and is deleted before submission.
 
 v1 (fixed-order N-gram experts with per-visit fading and Fixed Share mixing, and Thompson Sampling over predicted actions per ADR 0006) is built first. v2 adds: two Context Tree Weighting experts (action-first and response-first context, per-visit fading, clamped mixing log-odds) in place of the fixed-order N-gram experts, keeping v1's order-1 expert as a hedge; a longest-match expert (find the longest earlier repeat of the recent history and predict what followed it); level-k meta-strategies in the style of Iocaine Powder, so the Opponent can counter players who adapt to it; and safe exploitation (Ganzfried & Sandholm), mixing the best response with the Nash strategy (uniform under the balanced outcome matrix) by a budget of expected gifts that starts at k0 = 0.75 damage units (0.25 before variable damage, ADR 0010). v2 replaces v1 only if it beats v1 on dev seeds; otherwise v1 stays, and this ADR records why.
 

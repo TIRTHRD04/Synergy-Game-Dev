@@ -1,6 +1,6 @@
 # 0006: Response selection samples predicted actions; payoffs come from the fixed outcome matrix
 
-**Status:** Accepted (2026-10-27)
+**Status:** Accepted for v1 (2026-10-27). Superseded for v2 by safe exploitation (ADR 0007), which won its ablation row on payoff with k0 = 3 (experiments/runs/ablation-06c-safe-k3.txt). configs/v1.json still uses Thompson Sampling.
 
 The outcome matrix is game data that the Opponent already knows exactly, so learning payoffs (Beta posteriors, outcome-adjusted counters as in ADR 0005) would only re-estimate known numbers and blur the "no reinforcement learning" line in ADR 0001. Instead the response selector uses Thompson Sampling over the predicted action probabilities only: it samples p(action) from the predictor's Dirichlet posterior and commits the response with the highest expected payoff, `EV(r) = Σ p(a)·payoff(r,a)`, with payoffs read from the outcome matrix and the Damage table (+D for a win, 0 for a draw, −D for a loss; ADR 0010). Outcomes still matter, as input to the predictor, not to the selector. While the evidence gate is closed, the selector plays the Nash strategy (uniform under the balanced outcome matrix); the authored counter only breaks ties between equally good responses.
 

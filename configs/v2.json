@@ -1,13 +1,15 @@
 {
   "schemaVersion": 1,
-  "name": "v2-full",
+  "name": "v2",
   "kind": "adaptive",
   "experts": [
-    "order1", "ctwActionFirst", "ctwResponseFirst", "longestMatch",
-    "levelK1:ctwActionFirst", "levelK2:ctwActionFirst",
-    "levelK1:ctwResponseFirst", "levelK2:ctwResponseFirst",
-    "levelK1:longestMatch", "levelK2:longestMatch",
-    "mirror1", "mirror2"
+    "order0",
+    "order1",
+    "order2",
+    "actionResponse",
+    "longestMatch",
+    "bigHitSequence",
+    "avoidance"
   ],
   "dirichlet": 0.5,
   "gamma": 0.98,
@@ -19,6 +21,10 @@
   "insightMinProbability": 0.4,
   "insightMinCount": 5,
   "selector": "safeExploitation",
-  "safeBudgetStart": 0.75,
-  "meanMode": false
+  "safeBudgetStart": 3.0,
+  "meanMode": false,
+  "bigHitStrength": 3.0,
+  "sequenceBroadMatches": true,
+  "avoidanceBeta": 1.0,
+  "avoidanceBroadMatches": false
 }

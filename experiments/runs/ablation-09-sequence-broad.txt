@@ -1,0 +1,82 @@
+base:
+config best-seq, 200 seeds, chance = 0.167
+archetype         early   late    all     oracle  payoff  winrate bits/ex gate    insights recalls lambda>0 exch    matchW/L
+Spammer           0.896   0.918   0.914   -       2.554   0.902   1.895   200/200 57159    740     56658    300.000 590/4
+Cycler            0.768   0.860   0.841   -       2.304   0.844   1.596   200/200 47965    1565    55654    300.000 591/6
+WinStayLoseShift  0.363   0.517   0.488   0.550   1.312   0.712   0.907   200/200 23153    1625    43717    300.000 523/23
+OutGuesser        0.297   0.409   0.360   0.647   0.479   0.454   0.276   200/200 11989    2295    28771    300.000 341/63
+Random            0.168   0.167   0.166   -       -0.003  0.332   -0.065  0/200   0        0       0        300.000 160/148
+BigHitRepeater    0.171   0.281   0.226   -       0.013   0.338   0.008   58/200  421      698     1946     300.000 149/131
+BurnedAvoider     0.532   0.348   0.385   -       0.503   0.440   0.187   200/200 20973    2744    49608    300.000 419/17
+BigHitRepeater replay accuracy (pooled): opening 0.422 (n=2814) follow-up 1 0.675 (n=2779) follow-up 2 0.699 (n=2739)
+BurnedAvoider log-loss in burned contexts (pooled): 1.784 nats (n=44007)
+learning curve (accuracy per 25 exchanges):
+  Spammer           0.877 0.915 0.916 0.915 0.916 0.921 0.916 0.916 0.916 0.920 0.916 0.919 
+  Cycler            0.683 0.852 0.862 0.857 0.820 0.863 0.852 0.867 0.822 0.875 0.868 0.874 
+  WinStayLoseShift  0.299 0.427 0.477 0.511 0.510 0.523 0.515 0.525 0.514 0.530 0.512 0.511 
+  OutGuesser        0.292 0.302 0.319 0.336 0.335 0.345 0.363 0.388 0.375 0.410 0.426 0.427 
+  Random            0.170 0.166 0.161 0.170 0.165 0.158 0.163 0.170 0.167 0.171 0.164 0.165 
+  BigHitRepeater    0.170 0.171 0.174 0.198 0.201 0.209 0.224 0.246 0.251 0.262 0.296 0.315 
+  BurnedAvoider     0.569 0.496 0.393 0.362 0.369 0.359 0.353 0.336 0.356 0.350 0.346 0.338 
+decision time (Decide + Observe): p50 5.403 us, p99 39.208 us; runtime 3.494 s
+new:
+config best-seq-broad, 200 seeds, chance = 0.167
+archetype         early   late    all     oracle  payoff  winrate bits/ex gate    insights recalls lambda>0 exch    matchW/L
+Spammer           0.896   0.918   0.914   -       2.566   0.904   1.895   200/200 55281    2616    56943    300.000 593/4
+Cycler            0.768   0.860   0.841   -       2.304   0.844   1.595   200/200 43628    6105    55651    300.000 591/6
+WinStayLoseShift  0.364   0.517   0.489   0.550   1.312   0.711   0.908   200/200 23070    2119    43691    300.000 523/24
+OutGuesser        0.296   0.405   0.359   0.647   0.480   0.456   0.273   200/200 11242    4412    28865    300.000 343/65
+Random            0.168   0.168   0.166   -       -0.003  0.332   -0.065  0/200   0        0       0        300.000 160/148
+BigHitRepeater    0.173   0.322   0.257   -       0.065   0.350   0.057   119/200 149      3613    6354     300.000 170/116
+BurnedAvoider     0.533   0.349   0.385   -       0.504   0.439   0.186   200/200 19369    6273    49607    300.000 429/18
+BigHitRepeater replay accuracy (pooled): opening 0.659 (n=2782) follow-up 1 0.897 (n=2747) follow-up 2 0.919 (n=2710)
+BurnedAvoider log-loss in burned contexts (pooled): 1.782 nats (n=44138)
+learning curve (accuracy per 25 exchanges):
+  Spammer           0.877 0.915 0.916 0.915 0.916 0.921 0.916 0.916 0.916 0.920 0.916 0.919 
+  Cycler            0.683 0.852 0.862 0.857 0.820 0.863 0.852 0.867 0.822 0.874 0.869 0.874 
+  WinStayLoseShift  0.299 0.429 0.479 0.517 0.506 0.520 0.520 0.531 0.513 0.532 0.514 0.508 
+  OutGuesser        0.291 0.301 0.321 0.336 0.333 0.345 0.360 0.398 0.375 0.406 0.423 0.418 
+  Random            0.170 0.166 0.161 0.168 0.165 0.161 0.162 0.169 0.170 0.168 0.165 0.170 
+  BigHitRepeater    0.170 0.176 0.187 0.218 0.234 0.243 0.274 0.289 0.296 0.313 0.326 0.354 
+  BurnedAvoider     0.569 0.497 0.396 0.360 0.368 0.355 0.347 0.339 0.363 0.345 0.345 0.342 
+decision time (Decide + Observe): p50 5.282 us, p99 46.083 us; runtime 3.511 s
+paired comparison (new - base), 200 seeds:
+archetype         metric          base    new     diff    SE      margin  verdict
+Spammer           late accuracy   0.918   0.918   0.000   0.000   0.020   within margin
+Spammer           accuracy        0.914   0.914   0.000   0.000   0.020   within margin
+Spammer           log-loss        0.478   0.478   0.000   0.000   0.020   within margin
+Spammer           payoff          2.554   2.566   0.013   0.013   0.060   within margin
+Spammer           win rate        0.902   0.904   0.003   0.003   0.020   within margin
+Cycler            late accuracy   0.860   0.860   -0.000  0.000   0.020   within margin
+Cycler            accuracy        0.841   0.841   -0.000  0.000   0.020   within margin
+Cycler            log-loss        0.686   0.686   0.000   0.000   0.020   within margin
+Cycler            payoff          2.304   2.304   0.000   0.000   0.060   within margin
+Cycler            win rate        0.844   0.844   0.000   0.000   0.020   within margin
+WinStayLoseShift  late accuracy   0.517   0.517   -0.000  0.002   0.020   within margin
+WinStayLoseShift  accuracy        0.488   0.489   0.001   0.001   0.020   within margin
+WinStayLoseShift  log-loss        1.163   1.163   -0.000  0.001   0.020   within margin
+WinStayLoseShift  payoff          1.312   1.312   0.000   0.011   0.060   within margin
+WinStayLoseShift  win rate        0.712   0.711   -0.000  0.003   0.020   within margin
+OutGuesser        late accuracy   0.409   0.405   -0.004  0.005   0.020   within margin
+OutGuesser        accuracy        0.360   0.359   -0.001  0.002   0.020   within margin
+OutGuesser        log-loss        1.600   1.603   0.002   0.003   0.020   within margin
+OutGuesser        payoff          0.479   0.480   0.001   0.012   0.060   within margin
+OutGuesser        win rate        0.454   0.456   0.001   0.003   0.020   within margin
+Random            late accuracy   0.167   0.168   0.002   0.001   0.020   within margin
+Random            accuracy        0.166   0.166   0.001   0.001   0.020   within margin
+Random            log-loss        1.837   1.837   -0.000  0.000   0.020   BETTER
+Random            payoff          -0.003  -0.003  0.000   0.000   0.060   within margin
+Random            win rate        0.332   0.332   0.000   0.000   0.020   within margin
+BigHitRepeater    late accuracy   0.281   0.322   0.041   0.003   0.020   BETTER
+BigHitRepeater    accuracy        0.226   0.257   0.030   0.002   0.020   BETTER
+BigHitRepeater    log-loss        1.786   1.752   -0.034  0.002   0.020   BETTER
+BigHitRepeater    payoff          0.013   0.065   0.052   0.009   0.060   BETTER
+BigHitRepeater    win rate        0.338   0.350   0.012   0.002   0.020   BETTER
+BigHitRepeater    replay accuracy 0.585   0.829   0.244   0.009   0.020   BETTER
+BurnedAvoider     late accuracy   0.348   0.349   0.001   0.003   0.020   within margin
+BurnedAvoider     accuracy        0.385   0.385   -0.000  0.001   0.020   within margin
+BurnedAvoider     log-loss        1.662   1.663   0.000   0.001   0.020   within margin
+BurnedAvoider     payoff          0.503   0.504   0.000   0.005   0.060   within margin
+BurnedAvoider     win rate        0.440   0.439   -0.001  0.001   0.020   within margin
+BurnedAvoider     burned log-loss 1.773   1.772   -0.001  0.002   0.020   within margin
+logged row "ablation-09-sequence-broad" to experiments/log.csv
