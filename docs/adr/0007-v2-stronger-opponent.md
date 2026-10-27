@@ -11,3 +11,4 @@ v1 (fixed-order N-gram experts with Bayesian model averaging plus Fixed Share, a
 - Level-k and mirror experts can only earn their place against a player who models the Opponent, so the Out-guesser archetype is added to the suite.
 - Each component is kept only if it beats the row above on paired dev seeds (rules in notes/decisions.md); the full spec is .scratch/opponent-v2/spec.md.
 - Lookahead (expectimax over 2-3 exchanges) is deferred until HP or round state changes the best response.
+- With fading and clamped mixing log-odds, CTW is a switching-style approximation, not exact Bayes; this is deliberate so it can track habit changes.

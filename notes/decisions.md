@@ -38,3 +38,5 @@ One dated line per decision made outside Claude or during design sessions.
 - 2026-10-27: No hedged gate (the gate latches, so hedging would only help before the first opening).
 - 2026-10-27: v1 Thompson Sampling: pick an expert with probability equal to its weight, sample from its Dirichlet posterior for the current context, play the best response to the sample. Test mode uses the mixture mean.
 - 2026-10-27: One heldout run at the end reports v1, freq and v2 (whatever survived the ablations) together.
+- 2026-10-27: v2 keeps v1's order-1 expert in the Fixed Share mix as a cheap hedge next to the CTW experts.
+- 2026-10-27: Nash check is also a unit test: uniform play scores exactly 0 against every column of the outcome matrix.
