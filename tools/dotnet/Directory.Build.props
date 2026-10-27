@@ -1,0 +1,11 @@
+<Project>
+  <!-- Shared settings: C# 9 and netstandard2.1 match what Unity 6 compiles, so code that builds here builds there. -->
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Deterministic>true</Deterministic>
+    <RepoRoot>$(MSBuildThisFileDirectory)../../</RepoRoot>
+  </PropertyGroup>
+</Project>

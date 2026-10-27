@@ -22,3 +22,21 @@ __pycache__/
 /[Uu]ser[Ss]ettings/
 /[Bb]uild/
 /[Bb]uilds/
+/[Mm]emoryCaptures/
+/*.csproj
+/*.sln
+*.pidb.meta
+*.pdb.meta
+crashlytics-build.properties
+
+# dotnet tooling
+tools/dotnet/**/bin/
+tools/dotnet/**/obj/
+TestResults/
+results.xml
+
+# Keys and local data
+*.pfx
+*.p12
+*.keystore
+play-logs/
