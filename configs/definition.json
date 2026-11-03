@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "actions": ["Action 1", "Action 2", "Action 3", "Action 4", "Action 5", "Action 6"],
-  "responses": ["Response 1", "Response 2", "Response 3", "Response 4", "Response 5", "Response 6"],
+  "actions": ["Strike", "Dodge", "Grab", "Heavy", "Guard", "Parry"],
+  "responses": ["Strike", "Dodge", "Grab", "Heavy", "Guard", "Parry"],
+  "actionHints": [
+    "A fast jab. Catches a Dodge as it recovers and interrupts a Grab.",
+    "Step aside. Slips a Grab and punishes it, and makes a slow Heavy whiff.",
+    "A throw. Catches a Heavy during its wind-up and goes straight through a Guard.",
+    "A slow, powerful blow. Breaks a Guard and is too heavy to Parry.",
+    "Raise your guard. Leaves a Parry nothing to deflect and blocks a Strike.",
+    "Deflect and hit back. Punishes a Strike and catches a Dodge."
+  ],
   "outcomes": ["DWWDLL", "LDWWDL", "LLDWWD", "DLLDWW", "WDLLDW", "WWDLLD"],
   "damage": [
     [0, 3, 1, 0, 1, 3],

@@ -79,6 +79,12 @@ namespace AdaptiveOpponent.Core
         /// <inheritdoc />
         public double Lambda { get; private set; }
 
+        /// <summary>The best response to the mixed forecast for the committed exchange (played unless the kind says otherwise).</summary>
+        public int PlannedResponse => bestResponse;
+
+        /// <summary>How the committed response was chosen.</summary>
+        public ResponseKind ResponseKind { get; private set; }
+
         /// <inheritdoc />
         public CommentaryKind Commentary { get; private set; }
 
@@ -157,21 +163,29 @@ namespace AdaptiveOpponent.Core
         private int SelectResponse()
         {
             bestResponse = BestResponse.Of(definition, mixed);
+            ResponseKind = ResponseKind.BestResponse;
             if (!gate.IsOpen || LeadingExpert < 0)
             {
                 Lambda = 0;
+                ResponseKind = ResponseKind.Random;
                 return rng.NextInt(definition.ResponseCount);
             }
             if (safe != null)
             {
                 Lambda = safe.Lambda(bestResponse);
-                return config.MeanMode || rng.NextDouble() < Lambda ? bestResponse : rng.NextInt(definition.ResponseCount);
+                if (config.MeanMode || rng.NextDouble() < Lambda)
+                {
+                    return bestResponse;
+                }
+                ResponseKind = ResponseKind.Random;
+                return rng.NextInt(definition.ResponseCount);
             }
             Lambda = 1;
             if (config.MeanMode)
             {
                 return bestResponse;
             }
+            ResponseKind = ResponseKind.SampledBestResponse;
             int drawn = mixer.DrawAwake(awake, rng, drawBuffer);
             experts[drawn].Sample(rng, sample);
             return BestResponse.Of(definition, sample);

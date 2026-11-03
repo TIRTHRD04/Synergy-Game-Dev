@@ -120,5 +120,41 @@ namespace AdaptiveOpponent.Tests
         {
             Assert.Throws<JsonException>(() => DefinitionParser.Parse("{ \"schemaVersion\": 1, "));
         }
+
+        [Test]
+        public void ConfigFileNamesTheFightingMovesInRingOrder()
+        {
+            GameDefinition def = DefinitionParser.Parse(TestData.ReadRepoFile("configs/definition.json"));
+            string[] ring = { "Strike", "Dodge", "Grab", "Heavy", "Guard", "Parry" };
+            for (int m = 0; m < 6; m++)
+            {
+                Assert.AreEqual(ring[m], def.ActionName(m), "action " + m);
+                Assert.AreEqual(ring[m], def.ResponseName(m), "both sides pick from the same moves (ADR 0012)");
+                Assert.AreEqual(3, def.Payoff(m, (m + 1) % 6), ring[m] + " beats the next move cleanly");
+                Assert.AreEqual(1, def.Payoff(m, (m + 2) % 6), ring[m] + " beats the move after that glancingly");
+                Assert.IsNotEmpty(def.ActionHint(m), "every move has a hint");
+            }
+        }
+
+        [Test]
+        public void MissingActionHintsGiveEmptyStrings()
+        {
+            GameDefinition def = TestData.Example();
+            for (int a = 0; a < 6; a++)
+            {
+                Assert.AreEqual("", def.ActionHint(a));
+            }
+        }
+
+        [Test]
+        public void WrongNumberOfActionHintsIsRejected()
+        {
+            string json = TestData.ReadRepoFile("configs/definition.json");
+            int start = json.IndexOf("\"actionHints\"", System.StringComparison.Ordinal);
+            int end = json.IndexOf(']', start);
+            string broken = json.Substring(0, start) + "\"actionHints\": [\"only one\"" + json.Substring(end);
+            var ex = Assert.Throws<DefinitionException>(() => DefinitionParser.Parse(broken));
+            StringAssert.Contains("hint", ex.Message);
+        }
     }
 }

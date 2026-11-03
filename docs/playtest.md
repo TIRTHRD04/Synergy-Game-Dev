@@ -1,6 +1,6 @@
 # Playtest guide
 
-The game is a bare-bones IMGUI screen built from script. No scene or prefab is edited; `Bootstrap` creates the screen when Play starts.
+The game is an IMGUI screen built from script, laid out at 1280 x 720 and scaled to the window. No scene or prefab is edited; `Bootstrap` creates the screen when Play starts.
 
 ## One-time setup (a teammate with Unity 6)
 
@@ -23,10 +23,12 @@ Run both from the repository root (see docs/COMMANDS.md) and paste the raw resul
 ## Smoke check by hand
 
 1. Press Play. Pick an Opponent config: `v1.json` (baseline), `v2.json` (the tuned Opponent) or `v2-full-experimental.json` (every component, including the ones that lost their ablations; labelled EXPERIMENTAL on screen).
-2. Each exchange: the Opponent locks in its response and shows the first 16 characters of its commitment. Press 1-6 (or click a button). A key counts once per press: release it before the next exchange.
-3. After the reveal, check one commitment: take the response number (0-based: "Response 1" is 0) and the nonce shown, and run `printf '%s' "<response>|<nonce>" | sha256sum`. The first 16 characters must match the commitment shown before you acted. The full hash and nonce are also in the play log.
-4. Watch the Belief panel: it is labelled as a guess until the Opponent has enough evidence. Commentary appears only after that, and only when a prediction is strong and supported.
-5. After three matches the summary shows match results, damage, prediction accuracy against chance, when the evidence gate opened, big hits, and the learning curve.
+2. The how-to-play overlay opens at the start of a session (H toggles it). Check the six moves and what each beats.
+3. Each exchange: the Opponent locks in its move and shows the first 16 characters of its commitment ("proof code"). Press 1-6 (or click a move button). A key counts once per press: release it before the next exchange.
+4. After the reveal, the arena shows both moves, who won, the damage and why (the winning move's hint). Check one commitment: take the AI's move number (0-based in ring order: Strike 0, Dodge 1, Grab 2, Heavy 3, Guard 4, Parry 5) and the proof key shown, and run `printf '%s' "<number>|<key>" | sha256sum`. The first 16 characters must match the proof code shown before you acted. The full hash and nonce are also in the play log.
+5. While you choose, the AI Brain panel shows only its meters (evidence gate, how often it acts on its read, the pattern it relies on). After each reveal it shows what it expected (forecast bars, chance marked, your move tagged), READ YOU / MISSED / NO READ YET, how it chose its move, and "The AI says" (Commentary, only once the gate is open and the prediction is strong and supported).
+6. Play a habit on purpose (for example Grab, Heavy, Strike over and over): the confidence meter should fill, the strip at the bottom should turn red more often, and the learning curve should rise. Then play randomly: the AI should stay near chance.
+7. After three matches the summary shows match results, damage, big hits, when the evidence gate opened, the read rate per match against chance, the learning curve and the habits it put into words most often.
 
 ## Play logs
 

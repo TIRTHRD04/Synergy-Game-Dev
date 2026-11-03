@@ -11,6 +11,17 @@ namespace AdaptiveOpponent.Core
         Recall,
     }
 
+    /// <summary>How the Opponent chose the committed response, so the UI can say it without guessing.</summary>
+    public enum ResponseKind
+    {
+        /// <summary>A uniformly random response: the gate is closed, or safe exploitation chose to play safe.</summary>
+        Random,
+        /// <summary>The best response to the mixed forecast (the planned response).</summary>
+        BestResponse,
+        /// <summary>Thompson Sampling: the best response to one expert's sampled forecast.</summary>
+        SampledBestResponse,
+    }
+
     /// <summary>
     /// The Opponent as the session loop sees it. Each exchange: <see cref="Decide"/> commits a response and fixes
     /// the forecast, then the player acts, then <see cref="Observe"/> reveals the action. The Opponent never sees the

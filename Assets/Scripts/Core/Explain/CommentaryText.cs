@@ -46,23 +46,23 @@ namespace AdaptiveOpponent.Core
         {
             switch (expert)
             {
-                case "order0": return "which actions you favour";
-                case "order1": return "what you play after each action";
-                case "order2": return "your last two actions";
-                case "actionResponse": return "how you react to my responses";
+                case "order0": return "which moves you favour";
+                case "order1": return "what you play after each move";
+                case "order2": return "your last two moves";
+                case "actionResponse": return "how you react to its moves";
                 case "bigHitSequence": return "a big hit you landed earlier";
                 case "avoidance": return "where you got hit hard";
-                case "ctwActionFirst": return "your recent actions";
-                case "ctwResponseFirst": return "my recent responses";
+                case "ctwActionFirst": return "your recent moves";
+                case "ctwResponseFirst": return "its recent moves";
                 case "longestMatch": return "a sequence you repeated";
                 default:
                     if (expert.StartsWith("levelK", System.StringComparison.Ordinal))
                     {
-                        return "you trying to beat my counter";
+                        return "you trying to beat its counter";
                     }
                     if (expert.StartsWith("mirror", System.StringComparison.Ordinal))
                     {
-                        return "you reading my responses";
+                        return "you reading its moves";
                     }
                     return expert;
             }

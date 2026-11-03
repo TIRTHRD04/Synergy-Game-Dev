@@ -37,8 +37,9 @@ namespace AdaptiveOpponent.Core
             }
             int[] counters = ReadInts(root.Get("authoredCounters"));
             JsonValue bigHit = root.Get("bigHit");
+            string[] hints = root.TryGet("actionHints", out JsonValue hintArray) ? ReadStrings(hintArray) : null;
             return new GameDefinition(actions, responses, outcomes, damage, counters,
-                bigHit.Get("window").AsInt(), bigHit.Get("threshold").AsInt());
+                bigHit.Get("window").AsInt(), bigHit.Get("threshold").AsInt(), hints);
         }
 
         private static Outcome[] ReadOutcomeRow(string row, int index)

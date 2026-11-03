@@ -1,6 +1,6 @@
 # Glossary
 
-The language of the adaptive-opponent project. **Working definitions** are settled or provisional terms the project uses now. **Game-domain definitions** stay TBD until the game's theme is chosen. Do not treat a TBD entry as settled.
+The language of the adaptive-opponent project. **Working definitions** are settled or provisional terms the project uses now. **Game-domain definitions** name the fighting theme (ADR 0012).
 
 ## Working definitions
 
@@ -12,11 +12,11 @@ _Avoid_: bot, enemy AI, agent
 
 **Action**:
 One of the player's fixed set of mutually exclusive choices; the player picks exactly one per exchange.
-_Avoid_: move, input
+_Avoid_: move (except in on-screen text, see Move), input
 
 **Response**:
 One of the Opponent's fixed set of choices; the Opponent picks exactly one per exchange.
-_Avoid_: move, reply, counter-move
+_Avoid_: move (except in on-screen text, see Move), reply, counter-move
 
 **Exchange**:
 One unit of play: the Opponent commits a response, then the player picks an action, then both are revealed and the outcome is resolved.
@@ -162,8 +162,16 @@ _Avoid_: AI accuracy, hit rate
 **State snapshot**:
 Game context beyond action history that the game could supply to the Opponent. Not used: prediction is history-only. See [ADR 0003](docs/adr/0003-state-snapshot-input.md). Status: deferred.
 
-## Game-domain definitions (TBD)
+## Game-domain definitions
 
-- **Genre / theme**: TBD. Actions, responses and the outcome matrix are placeholders until it is chosen.
-- **Action names**: TBD
-- **Response names**: TBD
+- **Genre / theme**: a 1v1 fighting duel. See [ADR 0012](docs/adr/0012-fighting-move-theme.md).
+- **Action names** and **Response names**: the same six moves, in ring order: Strike, Dodge, Grab, Heavy, Guard, Parry.
+
+**Move**:
+The on-screen word for an action or a response in the fighting theme; both sides pick from the same six moves. Used in player-facing text and in the UI code that builds it; everywhere else, say action or response.
+
+**Read**:
+On screen: an exchange where the Opponent had a prediction (its forecast was not flat) and its top prediction was the action the player picked. The read rate can be slightly below Prediction accuracy, which counts a flat forecast's tie-broken action.
+
+**Planned response**:
+The best response to the mixed forecast for the committed exchange. The Opponent plays it unless it plays a random response (gate closed, or safe exploitation plays safe) or a sampled best response (Thompson Sampling).

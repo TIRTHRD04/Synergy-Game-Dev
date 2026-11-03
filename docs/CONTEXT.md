@@ -5,13 +5,23 @@ Decisions behind every line are in notes/decisions.md and docs/adr/. Terms are d
 ## Game rules
 
 - One Exchange: the Opponent commits a response (a SHA-256 commitment is shown), then the player picks one of 6 actions, then both are revealed and the outcome is resolved.
-- 6 actions and 6 responses. Names are placeholders ("Action 1" to "Action 6", "Response 1" to "Response 6") until a theme is chosen. All of it is data in `configs/definition.json`.
+- 6 actions and 6 responses with the same names: the fighting moves **Strike, Dodge, Grab, Heavy, Guard, Parry** (indices 0-5, in ring order; ADR 0012). On screen both are called moves. All of it is data in `configs/definition.json`, including a one-line hint per move.
 - Payoff to the Opponent: U(r, a) = f((a - r) mod 6) with f = [0, +3, +1, 0, -1, -3] (indices 0-5). So:
   - response r beats action r+1 for 3 damage (Heavy counter) and action r+2 for 1 damage (Light counter);
   - it draws with actions r and r+3;
   - it loses to action r+4 for 1 damage and to action r+5 for 3 damage (all mod 6).
+  - In move terms: each move beats the next one cleanly (3) and the one after that glancingly (1), draws with itself and the opposite move.
+
+  | Move | Beats (3) | Beats (1) | Draws | Loses to (1) | Loses to (3) |
+  |---|---|---|---|---|---|
+  | Strike | Dodge | Grab | Heavy | Guard | Parry |
+  | Dodge | Grab | Heavy | Guard | Parry | Strike |
+  | Grab | Heavy | Guard | Parry | Strike | Dodge |
+  | Heavy | Guard | Parry | Strike | Dodge | Grab |
+  | Guard | Parry | Strike | Dodge | Grab | Heavy |
+  | Parry | Strike | Dodge | Grab | Heavy | Guard |
 - Every row and column of U sums to 0 and has 2 wins, 2 draws and 2 losses, so playing uniformly at random is optimal (sigma* = uniform, v* = 0). The authored counter of action a is its Heavy counter, response a-1.
-- A lost exchange costs the loser its damage in HP. A Match ends at HP 0 or after 120 exchanges. A Session is 3 matches. Start HP is tuned on dev seeds (rough start 60).
+- A lost exchange costs the loser its damage in HP. A Match ends at HP 0 or after 120 exchanges. A Session is 3 matches. Start HP is 60 (tuned on dev seeds).
 - Big hit: 3 consecutive exchanges in which the same side takes damage every time, totalling >= 7. It is a flag only; no extra damage.
 
 ## Harness mode

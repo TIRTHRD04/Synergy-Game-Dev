@@ -32,8 +32,9 @@ namespace AdaptiveOpponent.Game
         private readonly Opponent opponent;
         private readonly BigHitDetector detector;
         private readonly PlayLog log;
-        private readonly List<bool> correct = new List<bool>();
+        private readonly Dictionary<string, int> patterns = new Dictionary<string, int>();
         private int committed;
+        private int exchangesPlayed;
         private Commitment commitment;
         private int exchangeInMatch;
         private int gateOpenedAt = -1;
@@ -49,7 +50,10 @@ namespace AdaptiveOpponent.Game
             opponent = new Opponent(definition, config, Rng.ForStream(seed, RngStream.Opponent), Matches * ExchangeCap);
             detector = new BigHitDetector(definition);
             log = new PlayLog(configFile, seed, config.Name);
+            Moves = new MovesView(definition);
             Belief = new BeliefView(definition);
+            Meters = new MetersView();
+            History = new HistoryView(Moves.Names, Matches);
             Reveal = new RevealView();
             Label = config.Name;
             StartMatch();
@@ -88,8 +92,17 @@ namespace AdaptiveOpponent.Game
         /// <summary>The first 16 hex characters of the current commitment.</summary>
         public string CommitmentShort => commitment.ShortHash;
 
-        /// <summary>The Belief and Commentary for the committed exchange.</summary>
+        /// <summary>The rules of each move as text.</summary>
+        public MovesView Moves { get; }
+
+        /// <summary>What the AI expected on the last revealed exchange, and how it chose its move.</summary>
         public BeliefView Belief { get; }
+
+        /// <summary>The AI's live meters for the committed exchange (safe to show while the player chooses).</summary>
+        public MetersView Meters { get; }
+
+        /// <summary>The recent exchanges, read rates and the live learning curve.</summary>
+        public HistoryView History { get; }
 
         /// <summary>The last revealed exchange.</summary>
         public RevealView Reveal { get; }
@@ -115,7 +128,18 @@ namespace AdaptiveOpponent.Game
             bool gate = opponent.GateOpen;
             double lambda = opponent.Lambda;
             string leading = opponent.LeadingExpert >= 0 ? opponent.ExpertName(opponent.LeadingExpert) : "none";
+            Belief.Capture(opponent, action, committed, ExchangeNumber);
             opponent.Observe(action);
+            exchangesPlayed++;
+            if (opponent.GateOpen && gateOpenedAt < 0)
+            {
+                gateOpenedAt = exchangesPlayed;
+            }
+            if (Belief.PatternSentence != null)
+            {
+                patterns.TryGetValue(Belief.PatternSentence, out int seen);
+                patterns[Belief.PatternSentence] = seen + 1;
+            }
             bool bigHit = detector.Observe(opponent.History, out BigHit hit);
             int payoff = definition.Payoff(committed, action);
             int damage = payoff < 0 ? -payoff : payoff;
@@ -129,16 +153,12 @@ namespace AdaptiveOpponent.Game
                 OpponentHp -= damage;
                 damageTaken += damage;
             }
-            correct.Add(top == action);
-            if (gate && gateOpenedAt < 0)
-            {
-                gateOpenedAt = correct.Count;
-            }
             Outcome outcome = definition.OutcomeOf(committed, action);
             log.Add(Match + 1, ExchangeNumber, action, committed, outcome.ToString(), damage, bigHit, top, pAction,
                 leading, gate, lambda, reactionMs, commitment.Hash, commitment.Nonce);
-            Reveal.Set(definition, action, committed, outcome, damage, bigHit, bigHit ? hit.Side : BigHitSide.OnOpponent,
-                commitment.Nonce);
+            Reveal.Set(definition, ExchangeNumber, action, committed, outcome, damage, bigHit,
+                bigHit ? hit.Side : BigHitSide.OnOpponent, commitment.Nonce);
+            History.Add(Match, action, Belief.HadPrediction ? top : -1, Belief.Read, Reveal.Winner);
             exchangeInMatch++;
             Phase = DuelPhase.Revealing;
         }
@@ -170,8 +190,8 @@ namespace AdaptiveOpponent.Game
                 StartMatch();
                 return;
             }
-            Summary = new SummaryView(correct, damageDealt, damageTaken, OpponentMatchWins, PlayerMatchWins,
-                gateOpenedAt, opponent.BigHits.RecordedOnOpponent, opponent.BigHits.RecordedOnPlayer);
+            Summary = new SummaryView(History, Matches, damageDealt, damageTaken, OpponentMatchWins, PlayerMatchWins,
+                gateOpenedAt, opponent.BigHits.RecordedOnOpponent, opponent.BigHits.RecordedOnPlayer, patterns);
             Phase = DuelPhase.Summary;
         }
 
@@ -191,7 +211,7 @@ namespace AdaptiveOpponent.Game
         {
             committed = opponent.Decide();
             commitment = Commitment.For(committed);
-            Belief.Update(opponent);
+            Meters.Update(opponent, gateOpenedAt);
             Phase = DuelPhase.Choosing;
         }
     }
