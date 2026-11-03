@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Archetypes, session runner and metrics, compiled from Assets/Scripts/Core.Sim. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>AdaptiveOpponent.Sim</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(RepoRoot)Assets/Scripts/Core.Sim/**/*.cs" />
+    <ProjectReference Include="../Core/Core.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Command-line entry point for the headless simulator. Not part of the Unity build. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>sim</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <ProjectReference Include="../Sim/Sim.csproj" />
+  </ItemGroup>
+</Project>

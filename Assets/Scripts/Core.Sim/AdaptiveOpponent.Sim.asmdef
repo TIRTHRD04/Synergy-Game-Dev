@@ -1,0 +1,14 @@
+{
+    "name": "AdaptiveOpponent.Sim",
+    "rootNamespace": "AdaptiveOpponent.Sim",
+    "references": ["AdaptiveOpponent.Core"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "name": "v1",
+  "kind": "adaptive",
+  "experts": ["order0", "order1", "order2", "actionResponse"],
+  "dirichlet": 0.5,
+  "gamma": 0.98,
+  "fading": "visit",
+  "matchStartCountScale": 0.5,
+  "fixedShareAlpha": 0.01,
+  "matchStartWeightMix": 0.5,
+  "gateThreshold": 6.907755278982137,
+  "insightMinProbability": 0.4,
+  "insightMinCount": 5,
+  "selector": "thompson",
+  "meanMode": false
+}

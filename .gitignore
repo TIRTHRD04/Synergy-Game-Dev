@@ -1,0 +1,42 @@
+# Never commit: raw data, weights, secrets
+data/
+models/
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+.env
+kaggle.json
+.kaggle/
+__pycache__/
+.ipynb_checkpoints/
+
+# Tracked on purpose (small, shared with teammates; keep repo private until event ends):
+# folds/  oof/  preds/  experiments/
+
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/[Mm]emoryCaptures/
+/*.csproj
+/*.sln
+*.pidb.meta
+*.pdb.meta
+crashlytics-build.properties
+
+# dotnet tooling
+tools/dotnet/**/bin/
+tools/dotnet/**/obj/
+TestResults/
+results.xml
+
+# Keys and local data
+*.pfx
+*.p12
+*.keystore
+play-logs/
