@@ -42,6 +42,7 @@ namespace AdaptiveOpponent.Game
         private float playerHitAt = -10f;
         private float aiHitAt = -10f;
         private bool showHelp;
+        private bool helpKeyHeld;
         private KeyCode heldKey = KeyCode.None;
         private bool warningLogged;
         private string headerText, rightText, playerHpText, aiHpText, statusText, summaryTitle, logPathText, matchRules;
@@ -71,6 +72,8 @@ namespace AdaptiveOpponent.Game
                 committedAt = Time.realtimeSinceStartup;
                 playerHitAt = aiHitAt = -10f;
                 warningLogged = false;
+                heldKey = KeyCode.None;
+                helpKeyHeld = false;
                 showHelp = true;
                 RefreshTexts();
             }
@@ -93,6 +96,16 @@ namespace AdaptiveOpponent.Game
         }
 
         private void OnApplicationQuit() => Session?.FlushLog();
+
+        // A key-up is lost when the window loses focus, so forget held keys rather than block input afterwards.
+        private void OnApplicationFocus(bool focused)
+        {
+            if (!focused)
+            {
+                heldKey = KeyCode.None;
+                helpKeyHeld = false;
+            }
+        }
 
         private void OnGUI()
         {
@@ -166,7 +179,7 @@ namespace AdaptiveOpponent.Game
             }
             if (showHelp && Screens.Help(s.Moves, matchRules))
             {
-                showHelp = false;
+                CloseHelp();
             }
         }
 
@@ -178,6 +191,13 @@ namespace AdaptiveOpponent.Game
             }
         }
 
+        // Closing the overlay restarts the reaction clock, so time spent reading the rules is not logged as reaction time.
+        private void CloseHelp()
+        {
+            showHelp = false;
+            committedAt = Time.realtimeSinceStartup;
+        }
+
         private float Flash(float elapsed) => elapsed < FlashSeconds ? 1f - elapsed / FlashSeconds : 0f;
 
         private void HandleKeys(Event e)
@@ -186,11 +206,23 @@ namespace AdaptiveOpponent.Game
             {
                 return;
             }
-            if (e.keyCode == KeyCode.H || (e.keyCode == KeyCode.Escape && showHelp))
+            if (e.keyCode == KeyCode.H || (e.keyCode == KeyCode.Escape && (showHelp || e.type == EventType.KeyUp)))
             {
-                if (e.type == EventType.KeyDown)
+                if (e.type == EventType.KeyUp)
                 {
-                    showHelp = e.keyCode == KeyCode.H && !showHelp;
+                    helpKeyHeld = false;
+                }
+                else if (!helpKeyHeld)
+                {
+                    helpKeyHeld = true;
+                    if (showHelp)
+                    {
+                        CloseHelp();
+                    }
+                    else if (e.keyCode == KeyCode.H)
+                    {
+                        showHelp = true;
+                    }
                 }
                 e.Use();
                 return;

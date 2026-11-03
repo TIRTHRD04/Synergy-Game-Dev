@@ -120,10 +120,14 @@ namespace AdaptiveOpponent.UI
                     return "It expected " + expected + " and played " + played +
                         ": the move that scores best against one of its pattern guesses.";
                 default:
-                    return opponent.GateOpen
-                        ? "It played " + played + " at random to stay unpredictable (acting on its read, it would have played " +
-                            definition.ResponseName(opponent.PlannedResponse) + ")."
-                        : "Not confident yet, so it played " + played + " at random.";
+                    if (!opponent.GateOpen)
+                    {
+                        return "Not confident yet, so it played " + played + " at random.";
+                    }
+                    return opponent.LeadingExpert < 0
+                        ? "None of its patterns fit this spot, so it played " + played + " at random."
+                        : "It played " + played + " at random to stay unpredictable (acting on its read, it would have played " +
+                            definition.ResponseName(opponent.PlannedResponse) + ").";
             }
         }
 

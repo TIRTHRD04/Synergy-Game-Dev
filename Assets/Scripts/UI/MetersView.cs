@@ -47,12 +47,25 @@ namespace AdaptiveOpponent.UI
                     "% of what it needs. Until then it plays at random.";
             }
             LambdaFraction = (float)opponent.Lambda;
-            LambdaText = !LockedOn
-                ? "This exchange: random move. It does not act on its read until it is confident."
-                : opponent.Lambda >= 0.995
+            if (!LockedOn)
+            {
+                LambdaText = "This exchange: random move. It does not act on its read until it is confident.";
+            }
+            else if (opponent.LeadingExpert < 0)
+            {
+                LambdaText = "This exchange: random move. None of its patterns fit this spot.";
+            }
+            else if (opponent.Config.Selector == SelectorKind.Thompson && !opponent.Config.MeanMode)
+            {
+                LambdaText = "This exchange: it plays the best move against one of its pattern guesses, picked at random.";
+            }
+            else
+            {
+                LambdaText = opponent.Lambda >= 0.995
                     ? "This exchange: it acts on its read (100%)."
                     : "This exchange: it acts on its read " + (opponent.Lambda * 100).ToString("0", ci) +
                         "% of the time and plays a random move otherwise.";
+            }
             ReadingText = opponent.LeadingExpert >= 0
                 ? "Relying most on: " + CommentaryText.PlainExpertName(opponent.ExpertName(opponent.LeadingExpert))
                 : "Relying most on: nothing yet";

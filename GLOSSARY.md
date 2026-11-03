@@ -152,7 +152,7 @@ Player-facing lines built only from Insights and Recalls.
 _Avoid_: banter, flavour text
 
 **Belief**:
-The Opponent's current top predictions, leading expert and confidence, as shown on screen.
+The Opponent's forecast for an exchange, its leading expert and its confidence, as shown on screen in the AI Brain panel after the reveal (ADR 0012).
 _Avoid_: belief snapshot, belief overlay
 
 **Prediction accuracy**:

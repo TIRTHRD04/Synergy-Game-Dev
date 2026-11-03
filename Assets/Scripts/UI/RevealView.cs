@@ -49,6 +49,11 @@ namespace AdaptiveOpponent.UI
         /// <summary>The nonce that opens the commitment.</summary>
         public string Nonce { get; private set; } = "";
 
+        // Hints are written per action. Both sides pick from the same moves (ADR 0012), so a response's hint is the hint
+        // of the action with the same name; a definition whose rings differ gets no hint.
+        private static string HintForResponse(GameDefinition definition, int response) =>
+            definition.ResponseName(response) == definition.ActionName(response) ? definition.ActionHint(response) : "";
+
         /// <summary>Sets the strings for one revealed exchange.</summary>
         public void Set(GameDefinition definition, int exchangeNumber, int action, int response, Outcome outcome,
             int damage, bool bigHit, BigHitSide side, string nonce)
@@ -65,7 +70,7 @@ namespace AdaptiveOpponent.UI
                 case Outcome.Win:
                     Winner = ExchangeWinner.Ai;
                     Banner = "AI WINS: " + AiMoveName + " beats " + PlayerMoveName + " (" + hit + "). You take " + damage + ".";
-                    Reason = AiMoveName + ": " + definition.ActionHint(response);
+                    Reason = AiMoveName + ": " + HintForResponse(definition, response);
                     break;
                 case Outcome.Loss:
                     Winner = ExchangeWinner.Player;

@@ -137,6 +137,18 @@ namespace AdaptiveOpponent.Tests
         }
 
         [Test]
+        public void EveryResponseHasTheSameWorstCaseSoLambdaDoesNotRevealThePlannedResponse()
+        {
+            // Safe exploitation's lambda depends on the planned response only through MinPayoff. The lambda meter is
+            // shown while the player chooses (ADR 0012), so it must not differ between responses.
+            GameDefinition def = DefinitionParser.Parse(TestData.ReadRepoFile("configs/definition.json"));
+            for (int r = 1; r < def.ResponseCount; r++)
+            {
+                Assert.AreEqual(def.MinPayoff(0), def.MinPayoff(r), "response " + r);
+            }
+        }
+
+        [Test]
         public void MissingActionHintsGiveEmptyStrings()
         {
             GameDefinition def = TestData.Example();
